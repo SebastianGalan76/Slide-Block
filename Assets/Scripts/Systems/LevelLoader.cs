@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Numerics;
 using System.Xml;
+using UnityEngine;
 
 public class LevelLoader
 {
@@ -51,5 +53,74 @@ public class LevelLoader
         float.TryParse(posYNode.InnerText, out float posY);
 
         return (size, posX, posY);
+    }
+
+    public static Dictionary<int, List<BlockValues>> LoadMovingBlocks(int stage, int level) {
+        if(!isLoaded) {
+            LoadDocument();
+        }
+
+        Dictionary<int, List<BlockValues>> movingBlocks = new Dictionary<int, List<BlockValues>>();
+        XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//movingBlock");
+        
+        for(int i = 0;i < nodeList.Count;i++) {
+            XmlNode typeNode = nodeList[i].ChildNodes[0];
+            XmlNode posPlatformNode = nodeList[i].ChildNodes[1];
+            XmlNode posXNode = nodeList[i].ChildNodes[2];
+            XmlNode posYNode = nodeList[i].ChildNodes[3];
+
+            int.TryParse(typeNode.InnerText, out int type);
+            int.TryParse(posPlatformNode.InnerText, out int posPlatform);
+            int.TryParse(posXNode.InnerText, out int posX);
+            int.TryParse(posYNode.InnerText, out int posY);
+
+            if(!movingBlocks.ContainsKey(type)) {
+                movingBlocks.Add(type, new List<BlockValues>());
+            }
+
+            movingBlocks[type].Add(new BlockValues(posPlatform, posX, posY));
+        }
+
+        return movingBlocks;
+    }
+
+    public static Dictionary<int, List<BlockValues>> LoadDestinationPlaces(int stage, int level) {
+        if(!isLoaded) {
+            LoadDocument();
+        }
+
+        Dictionary<int, List<BlockValues>> destinationPlaces = new Dictionary<int, List<BlockValues>>();
+        XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//destinationPlace");
+
+        for(int i = 0;i < nodeList.Count;i++) {
+            XmlNode typeNode = nodeList[i].ChildNodes[0];
+            XmlNode posPlatformNode = nodeList[i].ChildNodes[1];
+            XmlNode posXNode = nodeList[i].ChildNodes[2];
+            XmlNode posYNode = nodeList[i].ChildNodes[3];
+
+            int.TryParse(typeNode.InnerText, out int type);
+            int.TryParse(posPlatformNode.InnerText, out int posPlatform);
+            int.TryParse(posXNode.InnerText, out int posX);
+            int.TryParse(posYNode.InnerText, out int posY);
+
+            if(!destinationPlaces.ContainsKey(type)) {
+                destinationPlaces.Add(type, new List<BlockValues>());
+            }
+
+            destinationPlaces[type].Add(new BlockValues(posPlatform, posX, posY));
+        }
+
+        return destinationPlaces;
+    }
+
+    public struct BlockValues {
+        public int positionPlatform;
+        public int posX, posY;
+
+        public BlockValues(int positionPlatform, int posX, int posY) {
+            this.positionPlatform = positionPlatform;
+            this.posX = posX;
+            this.posY = posY;
+        }
     }
 }
