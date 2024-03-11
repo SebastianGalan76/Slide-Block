@@ -16,21 +16,21 @@ public class LevelLoader
         isLoaded = true;
     }
 
-    public static int[,] LoadPlatform(int stage, int level) {
+    public static FieldType[,] LoadPlatform(int stage, int level) {
         if(!isLoaded) {
             LoadDocument();
         }
 
-        int[,] platform = new int[14, 14];
+        FieldType[,] platform = new FieldType[14, 14];
 
         XmlNode node = doc.SelectSingleNode("//stage[@id='" + stage + "']/level[@id='" + level + "']/platform");
         char[] platformValues = node.InnerText.ToCharArray();
         for(int x = 0;x < 14;x++) {
             for(int y = 0;y < 14;y++) {
                 if(platformValues[y * 14 + x] == '0') {
-                    platform[x, y] = 0;
+                    platform[x, y] = FieldType.NULL;
                 } else {
-                    platform[x, y] = 1;
+                    platform[x, y] = FieldType.PLATFORM;
                 }
             }
         }

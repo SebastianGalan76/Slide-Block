@@ -7,7 +7,7 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private GameObject movingBlockPrefab, destinationPlacePrefab;
 
-    private int[,] platform;
+    private FieldType[,] platform;
     private Block[,] movingBlocks;
 
     public ColorBlock[] colorBlocks;
@@ -25,7 +25,8 @@ public class PlatformManager : MonoBehaviour
                     continue;
                 }
 
-                Instantiate(platformPrefab, new Vector3(x, -y, 1), Quaternion.identity);
+                GameObject platformObj = Instantiate(platformPrefab, new Vector3(x, -y, 1), Quaternion.identity);
+                platformObj.transform.SetParent(transform, true);
             }
         }
 
@@ -40,7 +41,8 @@ public class PlatformManager : MonoBehaviour
                 GameObject blockObj = Instantiate(movingBlockPrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
                 blockObj.GetComponent<SpriteRenderer>().sprite = colorBlocks[type].movingBlockSprite;
                 blockObj.name = "MovingBlock#" + type + " (" + blockIndex+")";
-                
+                blockObj.transform.SetParent(transform, true);
+
                 int x = blockValue.positionPlatform / 14;
                 int y = blockValue.positionPlatform % 14;
                 Block block = blockObj.GetComponent<Block>();
@@ -58,9 +60,14 @@ public class PlatformManager : MonoBehaviour
 
             int placeIndex = 0;
             foreach(BlockValues blockValue in placeValues) {
-                GameObject place = Instantiate(destinationPlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
-                place.GetComponent<SpriteRenderer>().sprite = colorBlocks[type].destinationPlaceSprite;
-                place.name = "DestinationPlace#" + type + " (" + placeIndex + ")";
+                GameObject placeObj = Instantiate(destinationPlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
+                placeObj.GetComponent<SpriteRenderer>().sprite = colorBlocks[type].destinationPlaceSprite;
+                placeObj.name = "DestinationPlace#" + type + " (" + placeIndex + ")";
+                placeObj.transform.SetParent(transform, true);
+
+                int x = blockValue.positionPlatform / 14;
+                int y = blockValue.positionPlatform % 14;
+                platform[x, y] = colorBlocks[type].color;
 
                 placeIndex++;
             }
@@ -69,7 +76,7 @@ public class PlatformManager : MonoBehaviour
 
     [System.Serializable]
     public struct ColorBlock {
-        public BlockType color;
+        public FieldType color;
         public Sprite movingBlockSprite;
         public Sprite destinationPlaceSprite;
     }
