@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Block : MonoBehaviour
@@ -27,5 +25,9 @@ public class Block : MonoBehaviour
 
     public void MoveDown(int value) {
         transform.position -= new Vector3(0, value, 0);
+    }
+
+    public FieldType GetBlockType() {
+        return type;
     }
 }

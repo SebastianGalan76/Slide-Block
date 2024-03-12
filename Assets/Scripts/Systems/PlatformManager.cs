@@ -205,6 +205,23 @@ public class PlatformManager : MonoBehaviour
         movingBlocks = newMovingBlocks;
     }
 
+    public bool CheckFinish() {
+        for(int x = 0;x < PLATFORM_SIZE;x++) {
+            for(int y = 0;y < PLATFORM_SIZE;y++) {
+                if(movingBlocks[x, y] == null) {
+                    continue;
+                }
+
+                if(movingBlocks[x, y].GetBlockType() != platform[x, y]) {
+                    return false;
+                }
+
+            }
+        }
+
+        return true;
+    }
+
     private ColorBlock GetRandomColor(int type) {
         if(colorBlockType.ContainsKey(type)) {
             return colorBlocks[colorBlockType[type]];

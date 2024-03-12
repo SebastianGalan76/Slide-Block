@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -10,6 +8,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CameraController cameraController;
 
     private void Start() {
+        LoadLevel(stage, level);
+    }
+
+    public void FinishLevel() {
+        level++;
+
         LoadLevel(stage, level);
     }
 
