@@ -18,19 +18,16 @@ public class Block : MonoBehaviour
 
     public void MoveLeft(int value) {
         posX -= value;
-
         transform.position -= new Vector3(value, 0, 0);
     }
 
     public void MoveUp(int value) {
         posY -= value;
-
         transform.position += new Vector3(0, value, 0);
     }
 
     public void MoveDown(int value) {
         posY += value;
-
         transform.position -= new Vector3(0, value, 0);
     }
 

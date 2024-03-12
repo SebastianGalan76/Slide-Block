@@ -100,7 +100,7 @@ public class PlatformManager : MonoBehaviour
             blockObj.name = "StoppableBlock (" + stoppableBlockIndex + ") - (" + x + ", " + y + ")";
 
             StoppableBlock block = blockObj.GetComponent<StoppableBlock>();
-            block.Initialize(FieldType.STOPPABLE, x, y, this);
+            block.Initialize(FieldType.STOPPABLE, x, y);
             movingBlocks[x, y] = block;
 
             stoppableBlockIndex++;
@@ -117,11 +117,9 @@ public class PlatformManager : MonoBehaviour
                     continue;
                 }
 
-                if(block is StoppableBlock) {
-                    if(((StoppableBlock)block).isStopped) {
-                        movement.Add(movingBlocks[x, y], new Movement(0, x, y));
-                        continue;
-                    }
+                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
+                    movement.Add(movingBlocks[x, y], new Movement(0, x, y));
+                    continue;
                 }
 
                 int movementAmount = 0;
@@ -130,6 +128,10 @@ public class PlatformManager : MonoBehaviour
                     if(movingBlocks[xNew, y] == null) {
                         movementAmount++;
                     }
+                    if(movingBlocks[xNew, y] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
+                        break;
+                    }
+
                     xNew++;
                 }
                 movement.Add(movingBlocks[x, y], new Movement(movementAmount, x + movementAmount, y));
@@ -155,11 +157,9 @@ public class PlatformManager : MonoBehaviour
                     continue;
                 }
 
-                if(block is StoppableBlock) {
-                    if(((StoppableBlock)block).isStopped) {
-                        movement.Add(movingBlocks[x, y], new Movement(0, x, y));
-                        continue;
-                    }
+                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
+                    movement.Add(movingBlocks[x, y], new Movement(0, x, y));
+                    continue;
                 }
 
                 int movementAmount = 0;
@@ -168,6 +168,10 @@ public class PlatformManager : MonoBehaviour
                     if(movingBlocks[xNew, y] == null) {
                         movementAmount++;
                     }
+                    if(movingBlocks[xNew, y] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
+                        break;
+                    }
+
                     xNew--;
                 }
 
@@ -193,11 +197,9 @@ public class PlatformManager : MonoBehaviour
                     continue;
                 }
 
-                if(block is StoppableBlock) {
-                    if(((StoppableBlock)block).isStopped) {
-                        movement.Add(movingBlocks[x, y], new Movement(0, x, y));
-                        continue;
-                    }
+                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
+                    movement.Add(movingBlocks[x, y], new Movement(0, x, y));
+                    continue;
                 }
 
                 int movementAmount = 0;
@@ -206,6 +208,10 @@ public class PlatformManager : MonoBehaviour
                     if(movingBlocks[x, yNew] == null) {
                         movementAmount++;
                     }
+                    if(movingBlocks[x, yNew] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
+                        break;
+                    }
+
                     yNew--;
                 }
 
@@ -231,11 +237,9 @@ public class PlatformManager : MonoBehaviour
                     continue;
                 }
 
-                if(block is StoppableBlock) {
-                    if(((StoppableBlock)block).isStopped) {
-                        movement.Add(movingBlocks[x, y], new Movement(0, x, y));
-                        continue;
-                    }
+                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
+                    movement.Add(movingBlocks[x, y], new Movement(0, x, y));
+                    continue;
                 }
 
                 int movementAmount = 0;
@@ -243,6 +247,9 @@ public class PlatformManager : MonoBehaviour
                 while(yNew >= 0 && yNew < PLATFORM_SIZE && platform[x, yNew] != FieldType.NULL) {
                     if(movingBlocks[x, yNew] == null) {
                         movementAmount++;
+                    }
+                    if(movingBlocks[x, yNew] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
+                        break;
                     }
 
                     yNew++;
@@ -272,7 +279,7 @@ public class PlatformManager : MonoBehaviour
                     continue;
                 }
 
-                if(movingBlocks[x, y].GetBlockType() != platform[x, y]) {
+                if(block.GetBlockType() != platform[x, y]) {
                     return false;
                 }
 
@@ -280,10 +287,6 @@ public class PlatformManager : MonoBehaviour
         }
 
         return true;
-    }
-
-    public void ChangePlatformFieldType(int x, int y, FieldType newFieldType) {
-        platform[x, y] = newFieldType;
     }
 
     private ColorBlock GetRandomColor(int type) {
