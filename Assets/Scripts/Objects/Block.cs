@@ -12,4 +12,20 @@ public class Block : MonoBehaviour
         this.posX = posX;
         this.posY = posY;
     }
+
+    public void MoveRight(int value) {
+        transform.position += new Vector3(value, 0, 0);
+    }
+
+    public void MoveLeft(int value) {
+        transform.position -= new Vector3(value, 0, 0);
+    }
+
+    public void MoveUp(int value) {
+        transform.position += new Vector3(0, value, 0);
+    }
+
+    public void MoveDown(int value) {
+        transform.position -= new Vector3(0, value, 0);
+    }
 }
