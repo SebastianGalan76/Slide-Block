@@ -111,6 +111,30 @@ public class LevelLoader
         return destinationPlaces;
     }
 
+    public static List<BlockValues> LoadStoppableBlocks(int stage, int level) {
+        if(!isLoaded) {
+            LoadDocument();
+        }
+
+        List<BlockValues> stoppableBlocks = new List<BlockValues>();
+
+        XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//stoppableBlock");
+
+        for(int i = 0;i < nodeList.Count;i++) {
+            XmlNode posPlatformNode = nodeList[i].ChildNodes[0];
+            XmlNode posXNode = nodeList[i].ChildNodes[1];
+            XmlNode posYNode = nodeList[i].ChildNodes[2];
+
+            int.TryParse(posPlatformNode.InnerText, out int posPlatform);
+            int.TryParse(posXNode.InnerText, out int posX);
+            int.TryParse(posYNode.InnerText, out int posY);
+
+            stoppableBlocks.Add(new BlockValues(posPlatform, posX, posY));
+        }
+
+        return stoppableBlocks;
+    }
+
     public struct BlockValues {
         public int positionPlatform;
         public int posX, posY;

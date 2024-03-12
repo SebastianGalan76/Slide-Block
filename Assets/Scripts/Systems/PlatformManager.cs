@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
+
 using static LevelLoader;
 
 public class PlatformManager : MonoBehaviour
 {
     private const int PLATFORM_SIZE = 14;
 
+    [Header("Prefabs")]
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private GameObject movingBlockPrefab, destinationPlacePrefab;
+    [SerializeField] private GameObject stoppableBlockPrefab;
+
     [SerializeField] private ColorBlock[] colorBlocks;
 
     private FieldType[,] platform;
@@ -52,11 +56,12 @@ public class PlatformManager : MonoBehaviour
 
                 int x = blockValue.positionPlatform % PLATFORM_SIZE;
                 int y = blockValue.positionPlatform / PLATFORM_SIZE;
-                Block block = blockObj.GetComponent<Block>();
                 blockObj.name = "MovingBlock#" + type + " (" + blockIndex + ") - ("+x+", "+y+")";
-
-                movingBlocks[x, y] = block;
+                
+                Block block = blockObj.GetComponent<Block>();
                 block.Initialize(colorBlock.color, x, y);
+                movingBlocks[x, y] = block;
+                
                 blockIndex++;
             }
         }
@@ -82,6 +87,24 @@ public class PlatformManager : MonoBehaviour
                 placeIndex++;
             }
         }
+
+        //Load stoppable blocks
+        List<BlockValues> stoppableBlocks = LoadStoppableBlocks(stage, level);
+        int stoppableBlockIndex = 0;
+        foreach(BlockValues blockValues in stoppableBlocks) {
+            GameObject blockObj = Instantiate(stoppableBlockPrefab, new Vector3(blockValues.posX, blockValues.posY, 1), Quaternion.identity);
+            blockObj.transform.SetParent(transform, true);
+
+            int x = blockValues.positionPlatform % PLATFORM_SIZE;
+            int y = blockValues.positionPlatform / PLATFORM_SIZE;
+            blockObj.name = "StoppableBlock (" + stoppableBlockIndex + ") - (" + x + ", " + y + ")";
+
+            StoppableBlock block = blockObj.GetComponent<StoppableBlock>();
+            block.Initialize(FieldType.STOPPABLE, x, y, this);
+            movingBlocks[x, y] = block;
+
+            stoppableBlockIndex++;
+        }
     }
 
     public void MoveRight() {
@@ -89,10 +112,18 @@ public class PlatformManager : MonoBehaviour
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
-                if(movingBlocks[x, y] == null) {
+                Block block = movingBlocks[x, y];
+                if(block == null) {
                     continue;
                 }
-                
+
+                if(block is StoppableBlock) {
+                    if(((StoppableBlock)block).isStopped) {
+                        movement.Add(movingBlocks[x, y], new Movement(0, x, y));
+                        continue;
+                    }
+                }
+
                 int movementAmount = 0;
                 int xNew = x + 1;
                 while(xNew >= 0 && xNew < PLATFORM_SIZE && platform[xNew, y] != FieldType.NULL) {
@@ -119,8 +150,16 @@ public class PlatformManager : MonoBehaviour
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
-                if(movingBlocks[x, y] == null) {
+                Block block = movingBlocks[x, y];
+                if(block == null) {
                     continue;
+                }
+
+                if(block is StoppableBlock) {
+                    if(((StoppableBlock)block).isStopped) {
+                        movement.Add(movingBlocks[x, y], new Movement(0, x, y));
+                        continue;
+                    }
                 }
 
                 int movementAmount = 0;
@@ -149,10 +188,18 @@ public class PlatformManager : MonoBehaviour
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
-                if(movingBlocks[x, y] == null) {
+                Block block = movingBlocks[x, y];
+                if(block == null) {
                     continue;
                 }
-                
+
+                if(block is StoppableBlock) {
+                    if(((StoppableBlock)block).isStopped) {
+                        movement.Add(movingBlocks[x, y], new Movement(0, x, y));
+                        continue;
+                    }
+                }
+
                 int movementAmount = 0;
                 int yNew = y - 1;
                 while(yNew >= 0 && yNew < PLATFORM_SIZE && platform[x, yNew] != FieldType.NULL) {
@@ -179,8 +226,16 @@ public class PlatformManager : MonoBehaviour
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
-                if(movingBlocks[x, y] == null) {
+                Block block = movingBlocks[x, y];
+                if(block == null) {
                     continue;
+                }
+
+                if(block is StoppableBlock) {
+                    if(((StoppableBlock)block).isStopped) {
+                        movement.Add(movingBlocks[x, y], new Movement(0, x, y));
+                        continue;
+                    }
                 }
 
                 int movementAmount = 0;
@@ -189,6 +244,7 @@ public class PlatformManager : MonoBehaviour
                     if(movingBlocks[x, yNew] == null) {
                         movementAmount++;
                     }
+
                     yNew++;
                 }
 
@@ -208,7 +264,11 @@ public class PlatformManager : MonoBehaviour
     public bool CheckFinish() {
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
-                if(movingBlocks[x, y] == null) {
+                Block block = movingBlocks[x, y];
+                if(block == null) {
+                    continue;
+                }
+                if(block is StoppableBlock) {
                     continue;
                 }
 
@@ -220,6 +280,10 @@ public class PlatformManager : MonoBehaviour
         }
 
         return true;
+    }
+
+    public void ChangePlatformFieldType(int x, int y, FieldType newFieldType) {
+        platform[x, y] = newFieldType;
     }
 
     private ColorBlock GetRandomColor(int type) {
