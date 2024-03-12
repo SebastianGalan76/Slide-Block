@@ -8,17 +8,18 @@ public class PlatformManager : MonoBehaviour
 
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private GameObject movingBlockPrefab, destinationPlacePrefab;
+    [SerializeField] private ColorBlock[] colorBlocks;
 
     private FieldType[,] platform;
     private Block[,] movingBlocks;
 
-    public ColorBlock[] colorBlocks;
+    private Dictionary<int, int> colorBlockType;
 
-    private void Awake() {
-        LoadNewLevel(1, 7);
-    }
+    public void LoadLevel(int stage, int level) {
+        foreach(Transform child in transform) {
+            Destroy(child.gameObject);
+        }
 
-    public void LoadNewLevel(int stage, int level) {
         platform = LoadPlatform(stage, level);
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
@@ -34,6 +35,8 @@ public class PlatformManager : MonoBehaviour
         }
 
         //Load moving blocks
+        colorBlockType = new Dictionary<int, int>();
+
         movingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         Dictionary<int, List<BlockValues>> movingBlocksDictionary = LoadMovingBlocks(stage, level);
         foreach(int type in movingBlocksDictionary.Keys) {
@@ -41,8 +44,10 @@ public class PlatformManager : MonoBehaviour
             
             int blockIndex = 0;
             foreach(BlockValues blockValue in blockValues) {
+                ColorBlock colorBlock = GetRandomColor(type);
+
                 GameObject blockObj = Instantiate(movingBlockPrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
-                blockObj.GetComponent<SpriteRenderer>().sprite = colorBlocks[type].movingBlockSprite;
+                blockObj.GetComponent<SpriteRenderer>().sprite = colorBlock.movingBlockSprite;
                 blockObj.transform.SetParent(transform, true);
 
                 int x = blockValue.positionPlatform % PLATFORM_SIZE;
@@ -51,7 +56,7 @@ public class PlatformManager : MonoBehaviour
                 blockObj.name = "MovingBlock#" + type + " (" + blockIndex + ") - ("+x+", "+y+")";
 
                 movingBlocks[x, y] = block;
-                block.Initialize(colorBlocks[type].color, x, y);
+                block.Initialize(colorBlock.color, x, y);
                 blockIndex++;
             }
         }
@@ -63,13 +68,15 @@ public class PlatformManager : MonoBehaviour
 
             int placeIndex = 0;
             foreach(BlockValues blockValue in placeValues) {
+                ColorBlock colorBlock = GetRandomColor(type);
+
                 GameObject placeObj = Instantiate(destinationPlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
-                placeObj.GetComponent<SpriteRenderer>().sprite = colorBlocks[type].destinationPlaceSprite;
+                placeObj.GetComponent<SpriteRenderer>().sprite = colorBlock.destinationPlaceSprite;
                 placeObj.transform.SetParent(transform, true);
 
                 int x = blockValue.positionPlatform % PLATFORM_SIZE;
                 int y = blockValue.positionPlatform / PLATFORM_SIZE;
-                platform[x, y] = colorBlocks[type].color;
+                platform[x, y] = colorBlock.color;
                 placeObj.name = "DestinationPlace#" + type + " (" + placeIndex + ") - (" + x + ", " + y + ")";
 
                 placeIndex++;
@@ -198,6 +205,20 @@ public class PlatformManager : MonoBehaviour
         movingBlocks = newMovingBlocks;
     }
 
+    private ColorBlock GetRandomColor(int type) {
+        if(colorBlockType.ContainsKey(type)) {
+            return colorBlocks[colorBlockType[type]];
+        }
+
+        int randomIndex;
+        do {
+            randomIndex = Random.Range(0, colorBlocks.Length);
+        }while(colorBlockType.ContainsValue(randomIndex));
+
+        colorBlockType.Add(type, randomIndex);
+        return colorBlocks[randomIndex];
+    }
+
 
     [System.Serializable]
     public struct ColorBlock {
@@ -205,7 +226,6 @@ public class PlatformManager : MonoBehaviour
         public Sprite movingBlockSprite;
         public Sprite destinationPlaceSprite;
     }
-
     public struct Movement {
         public int value;
         public int xNew;

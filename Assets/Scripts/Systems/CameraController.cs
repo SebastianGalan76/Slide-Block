@@ -7,9 +7,11 @@ public class CameraController : MonoBehaviour
     private new Camera camera;
 
     private void Awake() {
-        camera = GetComponent<Camera>();
+        camera = GetComponent<Camera>();  
+    }
 
-        (float size, float posX, float posY) = LevelLoader.LoadCamera(1, 1);
+    public void LoadCamera(int stage, int level) {
+        (float size, float posX, float posY) = LevelLoader.LoadCamera(stage, level);
         camera.transform.position = new Vector3(posX, posY, -10);
         camera.orthographicSize = size;
     }

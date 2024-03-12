@@ -321,13 +321,68 @@ MonoBehaviour:
   movingBlockPrefab: {fileID: 3546394267626845006, guid: 9fd439791ce1d534f886b063b76a282a, type: 3}
   destinationPlacePrefab: {fileID: 1248100372258871131, guid: e16a69dafef748e48878c47c27b33de8, type: 3}
   colorBlocks:
-  - color: 1
+  - color: 3
     movingBlockSprite: {fileID: 21300000, guid: 07b9f1a743e4a3b45b8165c7528a11c8, type: 3}
     destinationPlaceSprite: {fileID: 21300000, guid: 20cbf1ad91ebe5d428854e942083a4e9, type: 3}
+  - color: 2
+    movingBlockSprite: {fileID: 21300000, guid: 29c752db03e9aa5489de6414466fa908, type: 3}
+    destinationPlaceSprite: {fileID: 21300000, guid: 3516da2fbec0cef4997297aedc6b022e, type: 3}
+  - color: 4
+    movingBlockSprite: {fileID: 21300000, guid: f7a1faebc09c88741b05ae53a06b127a, type: 3}
+    destinationPlaceSprite: {fileID: 21300000, guid: 06227f59f71f4b942857779da6618ec1, type: 3}
+--- !u!1 &2112792832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2112792834}
+  - component: {fileID: 2112792833}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2112792833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112792832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02363b8fadc80c74eb2b4f4cb3e58e05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stage: 1
+  level: 10
+  platformManager: {fileID: 1859880273}
+  cameraController: {fileID: 519420033}
+--- !u!4 &2112792834
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112792832}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 2112792834}
   - {fileID: 1859880272}
   - {fileID: 1592803405}

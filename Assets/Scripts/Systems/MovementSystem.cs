@@ -20,8 +20,4 @@ public class MovementSystem : MonoBehaviour
             platform.MoveDown();
         }
     }
-
-    private void MoveRight() {
-        platform.MoveRight();
-    }
 }
