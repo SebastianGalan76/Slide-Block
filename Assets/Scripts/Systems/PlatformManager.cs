@@ -152,7 +152,7 @@ public class PlatformManager : MonoBehaviour
         Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         foreach (var item in movement)
         {
-            item.Key.MoveRight(item.Value.value);
+            item.Key.Move(DirectionType.RIGHT, item.Value.value);
 
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
@@ -196,7 +196,7 @@ public class PlatformManager : MonoBehaviour
 
         Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         foreach(var item in movement) {
-            item.Key.MoveLeft(item.Value.value);
+            item.Key.Move(DirectionType.LEFT, item.Value.value);
 
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
@@ -240,7 +240,7 @@ public class PlatformManager : MonoBehaviour
 
         Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         foreach(var item in movement) {
-            item.Key.MoveUp(item.Value.value);
+            item.Key.Move(DirectionType.UP, item.Value.value);
 
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
@@ -284,7 +284,7 @@ public class PlatformManager : MonoBehaviour
 
         Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         foreach(var item in movement) {
-            item.Key.MoveDown(item.Value.value);
+            item.Key.Move(DirectionType.DOWN, item.Value.value);
 
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }

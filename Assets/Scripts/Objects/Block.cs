@@ -11,22 +11,35 @@ public class Block : MonoBehaviour
         this.posY = posY;
     }
 
-    public void MoveRight(int value) {
+    public virtual void Move(DirectionType direction, int value) {
+        switch (direction) {
+            case DirectionType.RIGHT:
+                MoveRight(value); break;
+            case DirectionType.LEFT:
+                MoveLeft(value); break;
+            case DirectionType.UP:
+                MoveUp(value); break;
+            case DirectionType.DOWN:
+                MoveDown(value); break;
+        }
+    }
+
+    private void MoveRight(int value) {
         posX += value;
         transform.position += new Vector3(value, 0, 0);
     }
 
-    public void MoveLeft(int value) {
+    private void MoveLeft(int value) {
         posX -= value;
         transform.position -= new Vector3(value, 0, 0);
     }
 
-    public void MoveUp(int value) {
+    private void MoveUp(int value) {
         posY -= value;
         transform.position += new Vector3(0, value, 0);
     }
 
-    public void MoveDown(int value) {
+    private void MoveDown(int value) {
         posY += value;
         transform.position -= new Vector3(0, value, 0);
     }

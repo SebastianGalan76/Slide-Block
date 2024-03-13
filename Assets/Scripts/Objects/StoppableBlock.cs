@@ -9,12 +9,44 @@ public class StoppableBlock : Block
 
     public bool isStopped;
 
+    private float startPositionX, deltaX, deltaAbsX;
+    private float startPositionY, deltaY, deltaAbsY;
+    private float moveSensitivity = 0.2f;
+    private bool performedMovement;
+
     private void Awake() {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnMouseDown() {
-        OnClick();
+        startPositionX = Input.mousePosition.x;
+        startPositionY = Input.mousePosition.y;
+        performedMovement = false;
+    }
+
+    private void OnMouseUp() {
+        if(performedMovement) {
+            return;
+        }
+
+        deltaX = startPositionX - Input.mousePosition.x;
+        deltaY = startPositionY - Input.mousePosition.y;
+
+        deltaX /= Screen.dpi;
+        deltaY /= Screen.dpi;
+
+        deltaAbsX = Mathf.Abs(deltaX);
+        deltaAbsY = Mathf.Abs(deltaY);
+
+        if(deltaAbsX < moveSensitivity && deltaAbsY < moveSensitivity) {
+            OnClick();
+        }
+    }
+
+    public override void Move(DirectionType direction, int value) {
+        base.Move(direction, value);
+
+        performedMovement = true;
     }
 
     public void OnClick() {
