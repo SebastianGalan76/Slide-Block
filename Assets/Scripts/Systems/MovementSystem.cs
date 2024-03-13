@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
+using static PlatformManager;
 
 public class MovementSystem : MonoBehaviour
 {
-    [SerializeField] private PlatformManager platform;
-    [SerializeField] private LevelManager level;
+    [SerializeField] private PlatformManager platformManager;
+    [SerializeField] private LevelManager levelManager;
 
     private float startPositionX, deltaX, deltaAbsX;
     private float startPositionY, deltaY, deltaAbsY;
@@ -90,21 +92,197 @@ public class MovementSystem : MonoBehaviour
     private void Move(DirectionType direction) {
         switch (direction) {
             case DirectionType.UP:
-                platform.MoveUp();
+                MoveUp();
                 break;
                 case DirectionType.DOWN:
-                platform.MoveDown();
+                MoveDown();
                 break;
                 case DirectionType.LEFT:
-                platform.MoveLeft();
+                MoveLeft();
                 break;
                 case DirectionType.RIGHT:
-                platform.MoveRight();
+                MoveRight();
                 break;
         }
 
-        if(platform.CheckFinish()) {
-            level.FinishLevel();
+        if(platformManager.CheckFinish()) {
+            levelManager.FinishLevel();
         }
+    }
+
+    private void MoveRight() {
+        Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
+
+        for(int x = 0;x < PLATFORM_SIZE;x++) {
+            for(int y = 0;y < PLATFORM_SIZE;y++) {
+                Block block = platformManager.movingBlocks[x, y];
+                if(block == null) {
+                    continue;
+                }
+
+                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
+                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y));
+                    continue;
+                }
+
+                int movementAmount = 0;
+                int xNew = x + 1;
+                while(xNew >= 0 && xNew < PLATFORM_SIZE) {
+                    if(platformManager.platform[xNew, y] == FieldType.BORDER || platformManager.platform[xNew, y] == FieldType.NULL) {
+                        break;
+                    }
+
+                    if(platformManager.movingBlocks[xNew, y] == null) {
+                        movementAmount++;
+                    }
+                    if(platformManager.movingBlocks[xNew, y] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
+                        break;
+                    }
+
+                    xNew++;
+                }
+                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x + movementAmount, y));
+            }
+        }
+
+        Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
+        foreach(var item in movement) {
+            item.Key.Move(DirectionType.RIGHT, item.Value.value);
+
+            newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
+        }
+        platformManager.movingBlocks = newMovingBlocks;
+    }
+    private void MoveLeft() {
+        Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
+
+        for(int x = 0;x < PLATFORM_SIZE;x++) {
+            for(int y = 0;y < PLATFORM_SIZE;y++) {
+                Block block = platformManager.movingBlocks[x, y];
+                if(block == null) {
+                    continue;
+                }
+
+                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
+                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y));
+                    continue;
+                }
+
+                int movementAmount = 0;
+                int xNew = x - 1;
+                while(xNew >= 0 && xNew < PLATFORM_SIZE) {
+                    if(platformManager.platform[xNew, y] == FieldType.BORDER || platformManager.platform[xNew, y] == FieldType.NULL) {
+                        break;
+                    }
+
+                    if(platformManager.movingBlocks[xNew, y] == null) {
+                        movementAmount++;
+                    }
+                    if(platformManager.movingBlocks[xNew, y] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
+                        break;
+                    }
+
+                    xNew--;
+                }
+
+                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x - movementAmount, y));
+            }
+        }
+
+        Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
+        foreach(var item in movement) {
+            item.Key.Move(DirectionType.LEFT, item.Value.value);
+
+            newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
+        }
+        platformManager.movingBlocks = newMovingBlocks;
+    }
+    private void MoveUp() {
+        Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
+
+        for(int x = 0;x < PLATFORM_SIZE;x++) {
+            for(int y = 0;y < PLATFORM_SIZE;y++) {
+                Block block = platformManager.movingBlocks[x, y];
+                if(block == null) {
+                    continue;
+                }
+
+                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
+                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y));
+                    continue;
+                }
+
+                int movementAmount = 0;
+                int yNew = y - 1;
+                while(yNew >= 0 && yNew < PLATFORM_SIZE) {
+                    if(platformManager.platform[x, yNew] == FieldType.BORDER || platformManager.platform[x, yNew] == FieldType.NULL) {
+                        break;
+                    }
+
+                    if(platformManager.movingBlocks[x, yNew] == null) {
+                        movementAmount++;
+                    }
+                    if(platformManager.movingBlocks[x, yNew] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
+                        break;
+                    }
+
+                    yNew--;
+                }
+
+                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x, y - movementAmount));
+            }
+        }
+
+        Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
+        foreach(var item in movement) {
+            item.Key.Move(DirectionType.UP, item.Value.value);
+
+            newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
+        }
+        platformManager.movingBlocks = newMovingBlocks;
+    }
+    private void MoveDown() {
+        Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
+
+        for(int x = 0;x < PLATFORM_SIZE;x++) {
+            for(int y = 0;y < PLATFORM_SIZE;y++) {
+                Block block = platformManager.movingBlocks[x, y];
+                if(block == null) {
+                    continue;
+                }
+
+                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
+                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y));
+                    continue;
+                }
+
+                int movementAmount = 0;
+                int yNew = y + 1;
+                while(yNew >= 0 && yNew < PLATFORM_SIZE) {
+                    if(platformManager.platform[x, yNew] == FieldType.BORDER || platformManager.platform[x, yNew] == FieldType.NULL) {
+                        break;
+                    }
+
+                    if(platformManager.movingBlocks[x, yNew] == null) {
+                        movementAmount++;
+                    }
+                    if(platformManager.movingBlocks[x, yNew] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
+                        break;
+                    }
+
+                    yNew++;
+                }
+
+                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x, y + movementAmount));
+            }
+        }
+
+        Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
+        foreach(var item in movement) {
+            item.Key.Move(DirectionType.DOWN, item.Value.value);
+
+            newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
+        }
+        platformManager.movingBlocks = newMovingBlocks;
     }
 }

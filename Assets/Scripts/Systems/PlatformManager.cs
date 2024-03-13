@@ -6,7 +6,7 @@ using static LevelLoader;
 
 public class PlatformManager : MonoBehaviour
 {
-    private const int PLATFORM_SIZE = 14;
+    public const int PLATFORM_SIZE = 14;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject platformPrefab;
@@ -15,8 +15,8 @@ public class PlatformManager : MonoBehaviour
 
     [SerializeField] private ColorBlock[] colorBlocks;
 
-    private FieldType[,] platform;
-    private Block[,] movingBlocks;
+    public FieldType[,] platform;
+    public Block[,] movingBlocks;
 
     private Dictionary<int, int> colorBlockType;
     private BorderManager borderManager;
@@ -112,183 +112,6 @@ public class PlatformManager : MonoBehaviour
 
             stoppableBlockIndex++;
         }
-    }
-
-    public void MoveRight() {
-        Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
-
-        for(int x = 0;x < PLATFORM_SIZE;x++) {
-            for(int y = 0;y < PLATFORM_SIZE;y++) {
-                Block block = movingBlocks[x, y];
-                if(block == null) {
-                    continue;
-                }
-
-                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
-                    movement.Add(movingBlocks[x, y], new Movement(0, x, y));
-                    continue;
-                }
-
-                int movementAmount = 0;
-                int xNew = x + 1;
-                while(xNew >= 0 && xNew < PLATFORM_SIZE) {
-                    if(platform[xNew, y] == FieldType.BORDER || platform[xNew, y] == FieldType.NULL) {
-                        break;
-                    }
-
-                    if(movingBlocks[xNew, y] == null) {
-                        movementAmount++;
-                    }
-                    if(movingBlocks[xNew, y] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
-                        break;
-                    }
-
-                    xNew++;
-                }
-                movement.Add(movingBlocks[x, y], new Movement(movementAmount, x + movementAmount, y));
-            }
-        }
-
-        Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
-        foreach (var item in movement)
-        {
-            item.Key.Move(DirectionType.RIGHT, item.Value.value);
-
-            newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
-        }
-        movingBlocks = newMovingBlocks;
-    }
-    public void MoveLeft() {
-        Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
-
-        for(int x = 0;x < PLATFORM_SIZE;x++) {
-            for(int y = 0;y < PLATFORM_SIZE;y++) {
-                Block block = movingBlocks[x, y];
-                if(block == null) {
-                    continue;
-                }
-
-                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
-                    movement.Add(movingBlocks[x, y], new Movement(0, x, y));
-                    continue;
-                }
-
-                int movementAmount = 0;
-                int xNew = x - 1;
-                while(xNew >= 0 && xNew < PLATFORM_SIZE) {
-                    if(platform[xNew, y] == FieldType.BORDER || platform[xNew, y] == FieldType.NULL) {
-                        break;
-                    }
-
-                    if(movingBlocks[xNew, y] == null) {
-                        movementAmount++;
-                    }
-                    if(movingBlocks[xNew, y] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
-                        break;
-                    }
-
-                    xNew--;
-                }
-
-                movement.Add(movingBlocks[x, y], new Movement(movementAmount, x - movementAmount, y));
-            }
-        }
-
-        Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
-        foreach(var item in movement) {
-            item.Key.Move(DirectionType.LEFT, item.Value.value);
-
-            newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
-        }
-        movingBlocks = newMovingBlocks;
-    }
-    public void MoveUp() {
-        Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
-
-        for(int x = 0;x < PLATFORM_SIZE;x++) {
-            for(int y = 0;y < PLATFORM_SIZE;y++) {
-                Block block = movingBlocks[x, y];
-                if(block == null) {
-                    continue;
-                }
-
-                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
-                    movement.Add(movingBlocks[x, y], new Movement(0, x, y));
-                    continue;
-                }
-
-                int movementAmount = 0;
-                int yNew = y - 1;
-                while(yNew >= 0 && yNew < PLATFORM_SIZE) {
-                    if(platform[x, yNew] == FieldType.BORDER || platform[x, yNew] == FieldType.NULL) {
-                        break;
-                    }
-
-                    if(movingBlocks[x, yNew] == null) {
-                        movementAmount++;
-                    }
-                    if(movingBlocks[x, yNew] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
-                        break;
-                    }
-
-                    yNew--;
-                }
-
-                movement.Add(movingBlocks[x, y], new Movement(movementAmount, x, y - movementAmount));
-            }
-        }
-
-        Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
-        foreach(var item in movement) {
-            item.Key.Move(DirectionType.UP, item.Value.value);
-
-            newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
-        }
-        movingBlocks = newMovingBlocks;
-    }
-    public void MoveDown() {
-        Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
-
-        for(int x = 0;x < PLATFORM_SIZE;x++) {
-            for(int y = 0;y < PLATFORM_SIZE;y++) {
-                Block block = movingBlocks[x, y];
-                if(block == null) {
-                    continue;
-                }
-
-                if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
-                    movement.Add(movingBlocks[x, y], new Movement(0, x, y));
-                    continue;
-                }
-
-                int movementAmount = 0;
-                int yNew = y + 1;
-                while(yNew >= 0 && yNew < PLATFORM_SIZE) {
-                    if(platform[x, yNew] == FieldType.BORDER || platform[x, yNew] == FieldType.NULL) {
-                        break;
-                    }
-
-                    if(movingBlocks[x, yNew] == null) {
-                        movementAmount++;
-                    }
-                    if(movingBlocks[x, yNew] is StoppableBlock stoppableBlock2 && stoppableBlock2.isStopped) {
-                        break;
-                    }
-
-                    yNew++;
-                }
-
-                movement.Add(movingBlocks[x, y], new Movement(movementAmount, x, y + movementAmount));
-            }
-        }
-
-        Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
-        foreach(var item in movement) {
-            item.Key.Move(DirectionType.DOWN, item.Value.value);
-
-            newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
-        }
-        movingBlocks = newMovingBlocks;
     }
 
     public bool CheckFinish() {

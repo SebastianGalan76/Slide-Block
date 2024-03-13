@@ -257,8 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2162eae4150c544ab932db392b87b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platform: {fileID: 1859880273}
-  level: {fileID: 2112792833}
+  platformManager: {fileID: 1859880273}
+  levelManager: {fileID: 2112792833}
 --- !u!4 &1592803405
 Transform:
   m_ObjectHideFlags: 0
