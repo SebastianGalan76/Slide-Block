@@ -11,6 +11,12 @@ public class LevelManager : MonoBehaviour
         LoadLevel(stage, level);
     }
 
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.L)){
+            LoadLevel(stage, level);
+        }
+    }
+
     public void FinishLevel() {
         level++;
 

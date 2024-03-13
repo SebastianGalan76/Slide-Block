@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 using static LevelLoader;
@@ -18,6 +19,11 @@ public class PlatformManager : MonoBehaviour
     private Block[,] movingBlocks;
 
     private Dictionary<int, int> colorBlockType;
+    private BorderManager borderManager;
+
+    private void Awake() {
+        borderManager = GetComponent<BorderManager>();
+    }
 
     public void LoadLevel(int stage, int level) {
         foreach(Transform child in transform) {
@@ -25,10 +31,11 @@ public class PlatformManager : MonoBehaviour
         }
 
         platform = LoadPlatform(stage, level);
+        borderManager.GenerateBorder(platform, PLATFORM_SIZE);
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
-                if(platform[x, y] == 0) {
+                if(platform[x, y] != FieldType.PLATFORM) {
                     continue;
                 }
 
@@ -124,7 +131,11 @@ public class PlatformManager : MonoBehaviour
 
                 int movementAmount = 0;
                 int xNew = x + 1;
-                while(xNew >= 0 && xNew < PLATFORM_SIZE && platform[xNew, y] != FieldType.NULL) {
+                while(xNew >= 0 && xNew < PLATFORM_SIZE) {
+                    if(platform[xNew, y] == FieldType.BORDER || platform[xNew, y] == FieldType.NULL) {
+                        break;
+                    }
+
                     if(movingBlocks[xNew, y] == null) {
                         movementAmount++;
                     }
@@ -164,7 +175,11 @@ public class PlatformManager : MonoBehaviour
 
                 int movementAmount = 0;
                 int xNew = x - 1;
-                while(xNew >= 0 && xNew < PLATFORM_SIZE && platform[xNew, y] != FieldType.NULL) {
+                while(xNew >= 0 && xNew < PLATFORM_SIZE) {
+                    if(platform[xNew, y] == FieldType.BORDER || platform[xNew, y] == FieldType.NULL) {
+                        break;
+                    }
+
                     if(movingBlocks[xNew, y] == null) {
                         movementAmount++;
                     }
@@ -204,7 +219,11 @@ public class PlatformManager : MonoBehaviour
 
                 int movementAmount = 0;
                 int yNew = y - 1;
-                while(yNew >= 0 && yNew < PLATFORM_SIZE && platform[x, yNew] != FieldType.NULL) {
+                while(yNew >= 0 && yNew < PLATFORM_SIZE) {
+                    if(platform[x, yNew] == FieldType.BORDER || platform[x, yNew] == FieldType.NULL) {
+                        break;
+                    }
+
                     if(movingBlocks[x, yNew] == null) {
                         movementAmount++;
                     }
@@ -244,7 +263,11 @@ public class PlatformManager : MonoBehaviour
 
                 int movementAmount = 0;
                 int yNew = y + 1;
-                while(yNew >= 0 && yNew < PLATFORM_SIZE && platform[x, yNew] != FieldType.NULL) {
+                while(yNew >= 0 && yNew < PLATFORM_SIZE) {
+                    if(platform[x, yNew] == FieldType.BORDER || platform[x, yNew] == FieldType.NULL) {
+                        break;
+                    }
+
                     if(movingBlocks[x, yNew] == null) {
                         movementAmount++;
                     }
@@ -302,7 +325,6 @@ public class PlatformManager : MonoBehaviour
         colorBlockType.Add(type, randomIndex);
         return colorBlocks[randomIndex];
     }
-
 
     [System.Serializable]
     public struct ColorBlock {

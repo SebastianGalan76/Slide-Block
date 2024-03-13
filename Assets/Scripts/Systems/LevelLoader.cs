@@ -1,16 +1,22 @@
 using System.Collections.Generic;
 using System.Xml;
+using UnityEngine;
 
 public class LevelLoader
 {
     private const string FILE_PATH = "Assets/Resources/LevelsXML.xml";
-
     private static bool isLoaded;
     private static XmlDocument doc;
 
     public static void LoadDocument() {
         doc = new XmlDocument();
-        doc.Load(FILE_PATH);
+        if(Application.platform == RuntimePlatform.Android) {
+            TextAsset levelAsset = (TextAsset)Resources.Load("LevelsXML");
+            doc.LoadXml(levelAsset.text.Replace(".", ","));
+        } else if(Application.platform == RuntimePlatform.WindowsEditor) {
+            doc.Load(FILE_PATH);
+        }
+
         isLoaded = true;
     }
 
