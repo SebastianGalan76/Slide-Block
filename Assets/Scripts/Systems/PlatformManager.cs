@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 using static LevelLoader;
@@ -7,6 +6,8 @@ using static LevelLoader;
 public class PlatformManager : MonoBehaviour
 {
     public const int PLATFORM_SIZE = 14;
+
+    [SerializeField] private MovementSystem movementSystem;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject platformPrefab;
@@ -46,10 +47,13 @@ public class PlatformManager : MonoBehaviour
         }
 
         //Load moving blocks
+        int totalMovingBlocks = 0;
+
         colorBlockType = new Dictionary<int, int>();
 
         movingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         Dictionary<int, List<BlockValues>> movingBlocksDictionary = LoadMovingBlocks(stage, level);
+        totalMovingBlocks += movingBlocksDictionary.Count;
         foreach(int type in movingBlocksDictionary.Keys) {
             List<BlockValues> blockValues = movingBlocksDictionary[type];
             
@@ -66,7 +70,7 @@ public class PlatformManager : MonoBehaviour
                 blockObj.name = "MovingBlock#" + type + " (" + blockIndex + ") - ("+x+", "+y+")";
                 
                 Block block = blockObj.GetComponent<Block>();
-                block.Initialize(colorBlock.color, x, y);
+                block.Initialize(colorBlock.color, x, y, movementSystem);
                 movingBlocks[x, y] = block;
                 
                 blockIndex++;
@@ -97,6 +101,7 @@ public class PlatformManager : MonoBehaviour
 
         //Load stoppable blocks
         List<BlockValues> stoppableBlocks = LoadStoppableBlocks(stage, level);
+        totalMovingBlocks += stoppableBlocks.Count;
         int stoppableBlockIndex = 0;
         foreach(BlockValues blockValues in stoppableBlocks) {
             GameObject blockObj = Instantiate(stoppableBlockPrefab, new Vector3(blockValues.posX, blockValues.posY, 1), Quaternion.identity);
@@ -107,11 +112,13 @@ public class PlatformManager : MonoBehaviour
             blockObj.name = "StoppableBlock (" + stoppableBlockIndex + ") - (" + x + ", " + y + ")";
 
             StoppableBlock block = blockObj.GetComponent<StoppableBlock>();
-            block.Initialize(FieldType.STOPPABLE, x, y);
+            block.Initialize(FieldType.STOPPABLE, x, y, movementSystem);
             movingBlocks[x, y] = block;
 
             stoppableBlockIndex++;
         }
+
+        movementSystem.StartNewLevel(totalMovingBlocks);
     }
 
     public bool CheckFinish() {

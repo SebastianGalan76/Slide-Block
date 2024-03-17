@@ -9,9 +9,16 @@ public class MovementSystem : MonoBehaviour
 
     private float startPositionX, deltaX, deltaAbsX;
     private float startPositionY, deltaY, deltaAbsY;
-    private float moveSensitivity = 0.2f;
+    private float moveSensitivity = 0.15f;
+
+    private int totalBlocks;
+    private int movingBlocksCount;
 
     private void Update() {
+        if(movingBlocksCount>0) {
+            return;
+        }
+
 #if UNITY_EDITOR
         if(Input.GetKeyDown(KeyCode.D)) {
             Move(DirectionType.RIGHT);
@@ -89,7 +96,26 @@ public class MovementSystem : MonoBehaviour
 #endif
     }
 
+    public void StartNewLevel(int totalBlocks) {
+        this.totalBlocks = totalBlocks;
+        this.movingBlocksCount = 0;
+    }
+    public void ChangeTotalBlocksCount(int value) {
+        totalBlocks += value;
+    }
+    public void FinishMovement() {
+        movingBlocksCount--;
+
+        if(movingBlocksCount <= 0) {
+            if(platformManager.CheckFinish()) {
+                levelManager.FinishLevel();
+            }
+        }
+    }
+
     private void Move(DirectionType direction) {
+        movingBlocksCount = totalBlocks;
+
         switch (direction) {
             case DirectionType.UP:
                 MoveUp();
@@ -103,10 +129,6 @@ public class MovementSystem : MonoBehaviour
                 case DirectionType.RIGHT:
                 MoveRight();
                 break;
-        }
-
-        if(platformManager.CheckFinish()) {
-            levelManager.FinishLevel();
         }
     }
 

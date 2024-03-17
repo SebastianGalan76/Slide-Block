@@ -319,6 +319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d94b553d0c8625b4eb62a9abdedbac64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSystem: {fileID: 1592803404}
   platformPrefab: {fileID: 6987751515902820708, guid: 1c4751b697538cc44a023008ef066aa5, type: 3}
   movingBlockPrefab: {fileID: 3546394267626845006, guid: 9fd439791ce1d534f886b063b76a282a, type: 3}
   destinationPlacePrefab: {fileID: 1248100372258871131, guid: e16a69dafef748e48878c47c27b33de8, type: 3}
@@ -349,10 +350,12 @@ MonoBehaviour:
   borders:
   - sprite: {fileID: 721924524, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
     border: 000000000000000000
-  - sprite: {fileID: 829126890, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
+  - sprite: {fileID: -372760489, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
     border: 000000000000000001
-  - sprite: {fileID: -837252270, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
+  - sprite: {fileID: 502070818, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
     border: 020102010001020102
+  - sprite: {fileID: 2110954253, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
+    border: 000000000000020102
 --- !u!1 &2112792832
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: 1
-  level: 21
+  level: 1
   platformManager: {fileID: 1859880273}
   cameraController: {fileID: 519420033}
 --- !u!4 &2112792834
