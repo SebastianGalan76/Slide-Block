@@ -2,7 +2,7 @@
 
 public class Block : MonoBehaviour
 {
-    private const float SPEED = 20f;
+    private const float SPEED = 30f;
 
     private MovementSystem movementSystem;
     private FieldType type;

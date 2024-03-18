@@ -8,11 +8,13 @@ public class PlatformManager : MonoBehaviour
     public const int PLATFORM_SIZE = 14;
 
     [SerializeField] private MovementSystem movementSystem;
+    [SerializeField] private LevelManager levelManager;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private GameObject movingBlockPrefab, destinationPlacePrefab;
     [SerializeField] private GameObject stoppableBlockPrefab;
+    [SerializeField] private GameObject destructivePlacePrefab;
 
     [SerializeField] private ColorBlock[] colorBlocks;
 
@@ -118,28 +120,58 @@ public class PlatformManager : MonoBehaviour
             stoppableBlockIndex++;
         }
 
+        //Load destructive places
+        List<BlockValues> destructivePlaces = LoadDestructivePlaces(stage, level);
+        int destructivePlaceIndex = 0;
+        foreach(BlockValues blockValue in destructivePlaces) {
+            GameObject placeObj = Instantiate(destructivePlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
+            placeObj.transform.SetParent(transform, true);
+
+            int x = blockValue.positionPlatform % PLATFORM_SIZE;
+            int y = blockValue.positionPlatform / PLATFORM_SIZE;
+            platform[x, y] = FieldType.DESTRUCTIVE;
+            placeObj.name = "DestructivePlace (" + destructivePlaceIndex + ") - (" + x + ", " + y + ")";
+
+            destructivePlaceIndex++;
+        }
+
         movementSystem.StartNewLevel(totalMovingBlocks);
     }
 
-    public bool CheckFinish() {
+    public void CheckPlatform() {
+        bool levelIsFinished = true;
+
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
                 Block block = movingBlocks[x, y];
                 if(block == null) {
                     continue;
                 }
+
+                if(platform[x, y] == FieldType.DESTRUCTIVE) {
+                    if(block is StoppableBlock) {
+                        Destroy(block.gameObject);
+                        movementSystem.ChangeTotalBlocksCount(-1);
+                        continue;
+                    } else {
+                        levelManager.LostLevel();
+                    }
+                }
+
                 if(block is StoppableBlock) {
                     continue;
                 }
 
                 if(block.GetBlockType() != platform[x, y]) {
-                    return false;
+                    levelIsFinished = false;
                 }
 
             }
         }
 
-        return true;
+        if(levelIsFinished) {
+            levelManager.FinishLevel();
+        }
     }
 
     private ColorBlock GetRandomColor(int type) {

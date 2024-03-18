@@ -106,10 +106,8 @@ public class MovementSystem : MonoBehaviour
     public void FinishMovement() {
         movingBlocksCount--;
 
-        if(movingBlocksCount <= 0) {
-            if(platformManager.CheckFinish()) {
-                levelManager.FinishLevel();
-            }
+        if(movingBlocksCount == 0) {
+            platformManager.CheckPlatform();
         }
     }
 

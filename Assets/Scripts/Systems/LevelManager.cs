@@ -23,6 +23,10 @@ public class LevelManager : MonoBehaviour
         LoadLevel(stage, level);
     }
 
+    public void LostLevel() {
+        LoadLevel(stage, level);
+    }
+
     private void LoadLevel(int stage, int level) {
         platformManager.LoadLevel(stage, level);
         cameraController.LoadCamera(stage, level);

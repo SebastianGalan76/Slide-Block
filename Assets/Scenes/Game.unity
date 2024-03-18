@@ -324,6 +324,7 @@ MonoBehaviour:
   movingBlockPrefab: {fileID: 3546394267626845006, guid: 9fd439791ce1d534f886b063b76a282a, type: 3}
   destinationPlacePrefab: {fileID: 1248100372258871131, guid: e16a69dafef748e48878c47c27b33de8, type: 3}
   stoppableBlockPrefab: {fileID: 9095989016185591021, guid: a00b9faa9fbc2f0468ed19dd1950e329, type: 3}
+  destructivePlacePrefab: {fileID: 1248100372258871131, guid: 855d3a5829c1e404284746076cf471f4, type: 3}
   colorBlocks:
   - color: 3
     movingBlockSprite: {fileID: 21300000, guid: 07b9f1a743e4a3b45b8165c7528a11c8, type: 3}
@@ -386,7 +387,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: 1
-  level: 1
+  level: 61
   platformManager: {fileID: 1859880273}
   cameraController: {fileID: 519420033}
 --- !u!4 &2112792834

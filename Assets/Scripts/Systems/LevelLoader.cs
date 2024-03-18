@@ -141,6 +141,30 @@ public class LevelLoader
         return stoppableBlocks;
     }
 
+    public static List<BlockValues> LoadDestructivePlaces(int stage, int level) {
+        if(!isLoaded) {
+            LoadDocument();
+        }
+
+        List<BlockValues> destructivePlaces = new List<BlockValues>();
+
+        XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//destructivePlace");
+
+        for(int i = 0;i < nodeList.Count;i++) {
+            XmlNode posPlatformNode = nodeList[i].ChildNodes[0];
+            XmlNode posXNode = nodeList[i].ChildNodes[1];
+            XmlNode posYNode = nodeList[i].ChildNodes[2];
+
+            int.TryParse(posPlatformNode.InnerText, out int posPlatform);
+            int.TryParse(posXNode.InnerText, out int posX);
+            int.TryParse(posYNode.InnerText, out int posY);
+
+            destructivePlaces.Add(new BlockValues(posPlatform, posX, posY));
+        }
+
+        return destructivePlaces;
+    }
+
     public struct BlockValues {
         public int positionPlatform;
         public int posX, posY;
