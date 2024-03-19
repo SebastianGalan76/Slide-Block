@@ -4,12 +4,16 @@ public class Block : MonoBehaviour
 {
     private const float SPEED = 30f;
 
+    [SerializeField] private GameObject[] trailsObjects;
+
     private MovementSystem movementSystem;
     private FieldType type;
     protected int posX, posY;
 
     private Vector3 startPosition, newPosition;
     private float time, duration;
+
+
 
     public void Initialize(FieldType type, int posX, int posY, MovementSystem movementSystem) {
         this.movementSystem = movementSystem;
@@ -33,7 +37,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    public virtual void Move(DirectionType direction, int value) {
+    public virtual void Move(DirectionType direction, int value, bool showTrail) {
         startPosition = transform.position;
         switch (direction) {
             case DirectionType.RIGHT:
@@ -55,13 +59,45 @@ public class Block : MonoBehaviour
         }
 
         float distance = Vector3.Distance(startPosition, newPosition);
-        duration = distance /SPEED;
+        duration = distance / SPEED;
         time = 0;
-        
+
+        ShowTrail(direction, showTrail);
+
         enabled = true;
     }
 
     public FieldType GetBlockType() {
         return type;
+    }
+
+    private void ShowTrail(DirectionType movementDirection, bool show) {
+        if(trailsObjects.Length != 4) {
+            return;
+        }
+
+        foreach(GameObject trail in trailsObjects) {
+            trail.SetActive(false);
+        }
+
+        if(!show) {
+            return;
+        }
+
+        switch (movementDirection) {
+            case DirectionType.UP:
+                trailsObjects[0].SetActive(true);
+                break;
+            case DirectionType.DOWN:
+                trailsObjects[1].SetActive(true);
+                break;
+            case DirectionType.LEFT:
+                trailsObjects[2].SetActive(true);
+                break;
+            case DirectionType.RIGHT:
+                trailsObjects[3].SetActive(true);
+                break;
+
+        }
     }
 }

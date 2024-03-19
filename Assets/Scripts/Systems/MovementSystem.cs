@@ -141,7 +141,7 @@ public class MovementSystem : MonoBehaviour
                 }
 
                 if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
-                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y));
+                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y, false));
                     continue;
                 }
 
@@ -161,13 +161,15 @@ public class MovementSystem : MonoBehaviour
 
                     xNew++;
                 }
-                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x + movementAmount, y));
+
+                bool showTrail = platformManager.movingBlocks[x - 1, y] == null;
+                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x + movementAmount, y, showTrail));
             }
         }
 
         Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         foreach(var item in movement) {
-            item.Key.Move(DirectionType.RIGHT, item.Value.value);
+            item.Key.Move(DirectionType.RIGHT, item.Value.value, item.Value.showTrail);
 
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
@@ -184,7 +186,7 @@ public class MovementSystem : MonoBehaviour
                 }
 
                 if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
-                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y));
+                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y, false));
                     continue;
                 }
 
@@ -205,13 +207,14 @@ public class MovementSystem : MonoBehaviour
                     xNew--;
                 }
 
-                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x - movementAmount, y));
+                bool showTrail = platformManager.movingBlocks[x + 1, y] == null;
+                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x - movementAmount, y, showTrail));
             }
         }
 
         Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         foreach(var item in movement) {
-            item.Key.Move(DirectionType.LEFT, item.Value.value);
+            item.Key.Move(DirectionType.LEFT, item.Value.value, item.Value.showTrail);
 
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
@@ -228,7 +231,7 @@ public class MovementSystem : MonoBehaviour
                 }
 
                 if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
-                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y));
+                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y, false));
                     continue;
                 }
 
@@ -249,13 +252,14 @@ public class MovementSystem : MonoBehaviour
                     yNew--;
                 }
 
-                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x, y - movementAmount));
+                bool showTrail = platformManager.movingBlocks[x, y + 1] == null;
+                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x, y - movementAmount, showTrail));
             }
         }
 
         Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         foreach(var item in movement) {
-            item.Key.Move(DirectionType.UP, item.Value.value);
+            item.Key.Move(DirectionType.UP, item.Value.value, item.Value.showTrail);
 
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
@@ -272,7 +276,7 @@ public class MovementSystem : MonoBehaviour
                 }
 
                 if(block is StoppableBlock stoppableBlock && stoppableBlock.isStopped) {
-                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y));
+                    movement.Add(platformManager.movingBlocks[x, y], new Movement(0, x, y, false));
                     continue;
                 }
 
@@ -293,16 +297,31 @@ public class MovementSystem : MonoBehaviour
                     yNew++;
                 }
 
-                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x, y + movementAmount));
+                bool showTrail = platformManager.movingBlocks[x, y - 1] == null;
+                movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x, y + movementAmount, showTrail));
             }
         }
 
         Block[,] newMovingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
         foreach(var item in movement) {
-            item.Key.Move(DirectionType.DOWN, item.Value.value);
+            item.Key.Move(DirectionType.DOWN, item.Value.value, item.Value.showTrail);
 
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
         platformManager.movingBlocks = newMovingBlocks;
+    }
+
+    public struct Movement {
+        public int value;
+        public int xNew;
+        public int yNew;
+        public bool showTrail;
+
+        public Movement(int value, int xNew, int yNew, bool showTrail) {
+            this.value = value;
+            this.xNew = xNew;
+            this.yNew = yNew;
+            this.showTrail = showTrail;
+        }
     }
 }

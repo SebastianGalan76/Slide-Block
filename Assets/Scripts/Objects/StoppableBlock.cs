@@ -43,8 +43,8 @@ public class StoppableBlock : Block
         }
     }
 
-    public override void Move(DirectionType direction, int value) {
-        base.Move(direction, value);
+    public override void Move(DirectionType direction, int value, bool showTrail) {
+        base.Move(direction, value, showTrail);
 
         performedMovement = true;
     }

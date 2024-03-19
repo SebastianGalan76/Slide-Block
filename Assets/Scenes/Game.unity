@@ -320,6 +320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSystem: {fileID: 1592803404}
+  levelManager: {fileID: 2112792833}
   platformPrefab: {fileID: 6987751515902820708, guid: 1c4751b697538cc44a023008ef066aa5, type: 3}
   movingBlockPrefab: {fileID: 3546394267626845006, guid: 9fd439791ce1d534f886b063b76a282a, type: 3}
   destinationPlacePrefab: {fileID: 1248100372258871131, guid: e16a69dafef748e48878c47c27b33de8, type: 3}
@@ -387,7 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: 1
-  level: 61
+  level: 56
   platformManager: {fileID: 1859880273}
   cameraController: {fileID: 519420033}
 --- !u!4 &2112792834

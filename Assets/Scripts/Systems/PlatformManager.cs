@@ -194,15 +194,4 @@ public class PlatformManager : MonoBehaviour
         public Sprite movingBlockSprite;
         public Sprite destinationPlaceSprite;
     }
-    public struct Movement {
-        public int value;
-        public int xNew;
-        public int yNew;
-
-        public Movement(int value, int xNew, int yNew) {
-            this.value = value;
-            this.xNew = xNew;
-            this.yNew = yNew;
-        }
-    }
 }
