@@ -327,13 +327,46 @@ MonoBehaviour:
   stoppableBlockPrefab: {fileID: 9095989016185591021, guid: a00b9faa9fbc2f0468ed19dd1950e329, type: 3}
   destructivePlacePrefab: {fileID: 1248100372258871131, guid: 855d3a5829c1e404284746076cf471f4, type: 3}
   colorBlocks:
-  - color: 102
+  - color: 101
     movingBlockSprite: {fileID: 21300000, guid: 07b9f1a743e4a3b45b8165c7528a11c8, type: 3}
     destinationPlaceSprite: {fileID: 21300000, guid: 20cbf1ad91ebe5d428854e942083a4e9, type: 3}
     trailColor:
       serializedVersion: 2
-      key0: {r: 0.56249404, g: 0.9433962, b: 0.24474904, a: 1}
-      key1: {r: 0.6741829, g: 0.972549, b: 0.5647059, a: 0.27450982}
+      key0: {r: 0.98039216, g: 0.76862746, b: 0.2509804, a: 1}
+      key1: {r: 0.98039216, g: 0.76862746, b: 0.2509804, a: 0}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+  - color: 102
+    movingBlockSprite: {fileID: 21300000, guid: 29c752db03e9aa5489de6414466fa908, type: 3}
+    destinationPlaceSprite: {fileID: 21300000, guid: 3516da2fbec0cef4997297aedc6b022e, type: 3}
+    trailColor:
+      serializedVersion: 2
+      key0: {r: 0.9647059, g: 0.5529412, b: 0.21960784, a: 1}
+      key1: {r: 0.9647059, g: 0.5529412, b: 0.21960784, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -361,12 +394,12 @@ MonoBehaviour:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
   - color: 103
-    movingBlockSprite: {fileID: 21300000, guid: 29c752db03e9aa5489de6414466fa908, type: 3}
-    destinationPlaceSprite: {fileID: 21300000, guid: 3516da2fbec0cef4997297aedc6b022e, type: 3}
+    movingBlockSprite: {fileID: 21300000, guid: f7a1faebc09c88741b05ae53a06b127a, type: 3}
+    destinationPlaceSprite: {fileID: 21300000, guid: 06227f59f71f4b942857779da6618ec1, type: 3}
     trailColor:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.95686275, g: 0.30980393, b: 0.12941177, a: 1}
+      key1: {r: 0.95686275, g: 0.30980393, b: 0.12941177, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -393,13 +426,79 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-  - color: 101
-    movingBlockSprite: {fileID: 21300000, guid: f7a1faebc09c88741b05ae53a06b127a, type: 3}
-    destinationPlaceSprite: {fileID: 21300000, guid: 06227f59f71f4b942857779da6618ec1, type: 3}
+  - color: 104
+    movingBlockSprite: {fileID: 21300000, guid: f95490fb6e024474b92c356ce94001c2, type: 3}
+    destinationPlaceSprite: {fileID: 21300000, guid: be0f45d78b5a6d942a035ff6d74c18c2, type: 3}
     trailColor:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0.21960784, g: 0.654902, b: 0.24705882, a: 1}
+      key1: {r: 0.21960784, g: 0.654902, b: 0.24705882, a: 0}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+  - color: 105
+    movingBlockSprite: {fileID: 21300000, guid: 90089f364122db84a88d5b34abeec17c, type: 3}
+    destinationPlaceSprite: {fileID: 21300000, guid: 8194c546e1509d1489333e9f349f3951, type: 3}
+    trailColor:
+      serializedVersion: 2
+      key0: {r: 0.17254902, g: 0.68235296, b: 0.88235295, a: 1}
+      key1: {r: 0.17254902, g: 0.68235296, b: 0.88235295, a: 0}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+  - color: 106
+    movingBlockSprite: {fileID: 21300000, guid: 5762a6a5fdefc5b40b2d4bf5e7ec10e3, type: 3}
+    destinationPlaceSprite: {fileID: 21300000, guid: 43f489a12fcd2e744a9f4d42ab306ee9, type: 3}
+    trailColor:
+      serializedVersion: 2
+      key0: {r: 0.6117647, g: 0.23921569, b: 0.8862745, a: 1}
+      key1: {r: 0.6117647, g: 0.23921569, b: 0.8862745, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -478,7 +577,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: 1
-  level: 7
+  level: 1
+  movementSystem: {fileID: 1592803404}
   platformManager: {fileID: 1859880273}
   cameraController: {fileID: 519420033}
 --- !u!4 &2112792834

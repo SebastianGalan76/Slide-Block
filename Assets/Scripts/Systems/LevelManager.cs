@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
     public int stage, level;
 
+    [SerializeField] private MovementSystem movementSystem;
     [SerializeField] private PlatformManager platformManager;
     [SerializeField] private CameraController cameraController;
 
@@ -18,17 +20,32 @@ public class LevelManager : MonoBehaviour
     }
 
     public void FinishLevel() {
-        level++;
+        movementSystem.enabled = false;
+        StartCoroutine(wait());
 
-        LoadLevel(stage, level);
+        IEnumerator wait() {
+            yield return new WaitForSeconds(1);
+
+            level++;
+            LoadLevel(stage, level);
+        }
     }
 
     public void LostLevel() {
-        LoadLevel(stage, level);
+        movementSystem.enabled = false;
+        StartCoroutine(wait());
+
+        IEnumerator wait() {
+            yield return new WaitForSeconds(1);
+
+            LoadLevel(stage, level);
+        }
     }
 
     private void LoadLevel(int stage, int level) {
         platformManager.LoadLevel(stage, level);
         cameraController.LoadCamera(stage, level);
+
+        movementSystem.enabled = true;
     }
 }
