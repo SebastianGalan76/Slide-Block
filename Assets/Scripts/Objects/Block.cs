@@ -13,9 +13,16 @@ public class Block : MonoBehaviour
     private Vector3 startPosition, newPosition;
     private float time, duration;
 
+    public void Initialize(PlatformManager.ColorBlock colorBlock, int posX, int posY, MovementSystem movementSystem) {
+        Initialize(colorBlock.color, posX, posY, movementSystem);
 
+        foreach(GameObject trailObj in trailsObjects) {
+            TrailRenderer trail = trailObj.GetComponent<TrailRenderer>();
+            trail.colorGradient = colorBlock.trailColor;
+        }
+    }
 
-    public void Initialize(FieldType type, int posX, int posY, MovementSystem movementSystem) {
+    protected void Initialize(FieldType type, int posX, int posY, MovementSystem movementSystem) {
         this.movementSystem = movementSystem;
         this.type = type;
         this.posX = posX;

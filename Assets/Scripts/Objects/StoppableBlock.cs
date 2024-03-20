@@ -43,6 +43,10 @@ public class StoppableBlock : Block
         }
     }
 
+    public void Initialize(int posX, int posY, MovementSystem movementSystem) {
+        Initialize(FieldType.STOPPABLE, posX, posY, movementSystem);
+    }
+
     public override void Move(DirectionType direction, int value, bool showTrail) {
         base.Move(direction, value, showTrail);
 

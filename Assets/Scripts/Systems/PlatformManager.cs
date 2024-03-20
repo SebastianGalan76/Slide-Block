@@ -72,7 +72,7 @@ public class PlatformManager : MonoBehaviour
                 blockObj.name = "MovingBlock#" + type + " (" + blockIndex + ") - ("+x+", "+y+")";
                 
                 Block block = blockObj.GetComponent<Block>();
-                block.Initialize(colorBlock.color, x, y, movementSystem);
+                block.Initialize(colorBlock, x, y, movementSystem);
                 movingBlocks[x, y] = block;
                 
                 blockIndex++;
@@ -114,7 +114,7 @@ public class PlatformManager : MonoBehaviour
             blockObj.name = "StoppableBlock (" + stoppableBlockIndex + ") - (" + x + ", " + y + ")";
 
             StoppableBlock block = blockObj.GetComponent<StoppableBlock>();
-            block.Initialize(FieldType.STOPPABLE, x, y, movementSystem);
+            block.Initialize(x, y, movementSystem);
             movingBlocks[x, y] = block;
 
             stoppableBlockIndex++;
@@ -193,5 +193,6 @@ public class PlatformManager : MonoBehaviour
         public FieldType color;
         public Sprite movingBlockSprite;
         public Sprite destinationPlaceSprite;
+        public Gradient trailColor;
     }
 }
