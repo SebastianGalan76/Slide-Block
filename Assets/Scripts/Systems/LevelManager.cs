@@ -21,6 +21,8 @@ public class LevelManager : MonoBehaviour
 
     public void FinishLevel() {
         movementSystem.enabled = false;
+        UserData.FinishLevel(stage, level);
+
         StartCoroutine(wait());
 
         IEnumerator wait() {

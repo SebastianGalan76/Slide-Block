@@ -4,26 +4,11 @@ using UnityEngine;
 
 public class LevelLoader
 {
-    private const string FILE_PATH = "Assets/Resources/LevelsXML.xml";
     private static bool isLoaded;
     private static XmlDocument doc;
 
-    public static void LoadDocument() {
-        doc = new XmlDocument();
-        if(Application.platform == RuntimePlatform.Android) {
-            TextAsset levelAsset = (TextAsset)Resources.Load("LevelsXML");
-            doc.LoadXml(levelAsset.text.Replace(".", ","));
-        } else if(Application.platform == RuntimePlatform.WindowsEditor) {
-            doc.Load(FILE_PATH);
-        }
-
-        isLoaded = true;
-    }
-
     public static FieldType[,] LoadPlatform(int stage, int level) {
-        if(!isLoaded) {
-            LoadDocument();
-        }
+        LoadDocument();
 
         FieldType[,] platform = new FieldType[14, 14];
 
@@ -43,9 +28,7 @@ public class LevelLoader
     }
 
     public static (float, float, float) LoadCamera(int stage, int level) {
-        if(!isLoaded) {
-            LoadDocument();
-        }
+        LoadDocument();
 
         XmlNode node = doc.SelectSingleNode("//stage[@id='" + stage + "']/level[@id='" + level + "']/camera");
         XmlNode posXNode = node.ChildNodes[0];
@@ -60,9 +43,7 @@ public class LevelLoader
     }
 
     public static Dictionary<int, List<BlockValues>> LoadMovingBlocks(int stage, int level) {
-        if(!isLoaded) {
-            LoadDocument();
-        }
+        LoadDocument();
 
         Dictionary<int, List<BlockValues>> movingBlocks = new Dictionary<int, List<BlockValues>>();
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//movingBlock");
@@ -89,9 +70,7 @@ public class LevelLoader
     }
 
     public static Dictionary<int, List<BlockValues>> LoadDestinationPlaces(int stage, int level) {
-        if(!isLoaded) {
-            LoadDocument();
-        }
+        LoadDocument();
 
         Dictionary<int, List<BlockValues>> destinationPlaces = new Dictionary<int, List<BlockValues>>();
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//destinationPlace");
@@ -118,12 +97,9 @@ public class LevelLoader
     }
 
     public static List<BlockValues> LoadStoppableBlocks(int stage, int level) {
-        if(!isLoaded) {
-            LoadDocument();
-        }
+        LoadDocument();
 
         List<BlockValues> stoppableBlocks = new List<BlockValues>();
-
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//stoppableBlock");
 
         for(int i = 0;i < nodeList.Count;i++) {
@@ -142,12 +118,9 @@ public class LevelLoader
     }
 
     public static List<BlockValues> LoadDestructivePlaces(int stage, int level) {
-        if(!isLoaded) {
-            LoadDocument();
-        }
+        LoadDocument();
 
         List<BlockValues> destructivePlaces = new List<BlockValues>();
-
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//destructivePlace");
 
         for(int i = 0;i < nodeList.Count;i++) {
@@ -163,6 +136,21 @@ public class LevelLoader
         }
 
         return destructivePlaces;
+    }
+
+    private static void LoadDocument() {
+        if(isLoaded)
+            return;
+
+        doc = new XmlDocument();
+        if(Application.platform == RuntimePlatform.Android) {
+            TextAsset levelAsset = (TextAsset)Resources.Load("LevelsXML");
+            doc.LoadXml(levelAsset.text.Replace(".", ","));
+        } else if(Application.platform == RuntimePlatform.WindowsEditor) {
+            doc.Load("Assets/Resources/LevelsXML.xml");
+        }
+
+        isLoaded = true;
     }
 
     public struct BlockValues {
