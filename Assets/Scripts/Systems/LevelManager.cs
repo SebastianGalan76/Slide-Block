@@ -10,13 +10,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private CameraController cameraController;
 
     private void Start() {
-        LoadLevel(stage, level);
-    }
-
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.L)){
-            LoadLevel(stage, level);
-        }
+        StartLevel(stage, level);
     }
 
     public void FinishLevel() {
@@ -24,12 +18,11 @@ public class LevelManager : MonoBehaviour
         UserData.FinishLevel(stage, level);
 
         StartCoroutine(wait());
-
         IEnumerator wait() {
             yield return new WaitForSeconds(1);
 
             level++;
-            LoadLevel(stage, level);
+            StartLevel(stage, level);
         }
     }
 
@@ -40,11 +33,27 @@ public class LevelManager : MonoBehaviour
         IEnumerator wait() {
             yield return new WaitForSeconds(1);
 
-            LoadLevel(stage, level);
+            StartLevel(stage, level);
         }
     }
 
-    private void LoadLevel(int stage, int level) {
+    public void PauseLevel() {
+        movementSystem.enabled = false;
+
+        Time.timeScale = 0;
+    }
+
+    public void ResumeLevel() {
+        movementSystem.enabled = true;
+
+        Time.timeScale = 1;
+    }
+
+    public void RestartLevel() {
+        StartLevel(stage, level);
+    }
+
+    private void StartLevel(int stage, int level) {
         platformManager.LoadLevel(stage, level);
         cameraController.LoadCamera(stage, level);
 

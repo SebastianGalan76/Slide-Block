@@ -127,7 +127,10 @@ public class UserData
             }
 
             doc.Load(filePath);
-        } else if(Application.platform == RuntimePlatform.WindowsEditor) {
+        }
+
+#if UNITY_EDITOR
+        if(Application.platform == RuntimePlatform.WindowsEditor) {
             filePath = "Assets/Resources/" + FILE_NAME;
             if(!File.Exists(filePath)) {
                 CreateFileStructure();
@@ -138,6 +141,7 @@ public class UserData
 
             doc.Load(filePath);
         }
+#endif
 
         isLoaded = true;
     }
