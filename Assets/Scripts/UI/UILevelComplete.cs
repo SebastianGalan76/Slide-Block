@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class UILevelComplete : MonoBehaviour
 {
-    [SerializeField] private TMP_Text levelNumberText;
     [SerializeField] private LevelManager levelManager;
+
+    [SerializeField] private TMP_Text levelNumberText;
     
     private Animator panelAnimator;
 

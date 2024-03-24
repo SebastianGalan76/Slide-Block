@@ -6,27 +6,27 @@ using UnityEngine.SceneManagement;
 public class UIPause : MonoBehaviour
 {
     private Animator panelAnimator;
-    private bool isPaused;
+    private bool isShowed;
 
     private void Awake() {
         panelAnimator = GetComponent<Animator>();
     }
 
     public void ShowPanel() {
-        isPaused = true;
+        isShowed = true;
 
         gameObject.SetActive(true);
         panelAnimator.SetBool("isPaused", true);
     }
 
     public void HidePanel() {
-        isPaused = false;
+        isShowed = false;
 
         panelAnimator.SetBool("isPaused", false);
     }
 
     public void OnAnimationFinish() {
-        if(!isPaused) {
+        if(!isShowed) {
             gameObject.SetActive(false);
         }
     }
