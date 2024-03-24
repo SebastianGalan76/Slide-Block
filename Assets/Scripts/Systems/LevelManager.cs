@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private PlatformManager platformManager;
     [SerializeField] private CameraController cameraController;
 
+    [SerializeField] private UILevelComplete levelCompletePanel;
+
     private void Start() {
         StartLevel(stage, level);
     }
@@ -17,13 +19,7 @@ public class LevelManager : MonoBehaviour
         movementSystem.enabled = false;
         UserData.FinishLevel(stage, level);
 
-        StartCoroutine(wait());
-        IEnumerator wait() {
-            yield return new WaitForSeconds(1);
-
-            level++;
-            StartLevel(stage, level);
-        }
+        levelCompletePanel.ShowPanel(level);
     }
 
     public void LostLevel() {
@@ -50,6 +46,16 @@ public class LevelManager : MonoBehaviour
     }
 
     public void RestartLevel() {
+        StartLevel(stage, level);
+    }
+
+    public void StartNextLevel() {
+        level++;
+        if(level > 100) {
+            stage++;
+            level = 1;
+        }
+
         StartLevel(stage, level);
     }
 
