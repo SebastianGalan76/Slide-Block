@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -139,7 +140,10 @@ public class PlatformManager : MonoBehaviour
     }
 
     public void CheckPlatform() {
+        movementSystem.enabled = false;
+
         bool levelIsFinished = true;
+        bool levelIsLost = false;
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
@@ -150,12 +154,20 @@ public class PlatformManager : MonoBehaviour
 
                 if(platform[x, y] == FieldType.DESTRUCTIVE) {
                     if(block is StoppableBlock) {
-                        Destroy(block.gameObject);
+                        block.DestroyBlock();
                         movementSystem.ChangeTotalBlocksCount(-1);
+                        movingBlocks[x, y] = null;
+
                         continue;
                     } else {
-                        levelManager.LostLevel();
+
+                        block.DestroyBlock();
+                        movementSystem.ChangeTotalBlocksCount(-1);
+                        movingBlocks[x, y] = null;
+                        levelIsLost = true;
                     }
+
+                    
                 }
 
                 if(block is StoppableBlock) {
@@ -171,6 +183,19 @@ public class PlatformManager : MonoBehaviour
 
         if(levelIsFinished) {
             levelManager.FinishLevel();
+        }
+
+        if(levelIsLost) {
+            StartCoroutine(wait());
+
+            IEnumerator wait() {
+                yield return new WaitForSeconds(1.5f);
+
+                levelManager.LostLevel();
+            }
+
+        } else {
+            movementSystem.enabled = true;
         }
     }
 

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5711386122639651481}
   - component: {fileID: 2063382802164555808}
   - component: {fileID: 375543721397323839}
+  - component: {fileID: 4129631205987400983}
   m_Layer: 0
   m_Name: MovingBlock
   m_TagString: Untagged
@@ -103,6 +104,27 @@ MonoBehaviour:
   - {fileID: 7181523864009840594}
   - {fileID: 7271421698527072626}
   - {fileID: 4883858759556368584}
+--- !u!95 &4129631205987400983
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3546394267626845006}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d2c7ef99922551a4ba65eafc95d35429, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &8165664830748853490
 GameObject:
   m_ObjectHideFlags: 0

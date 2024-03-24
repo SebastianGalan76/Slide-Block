@@ -2,7 +2,7 @@
 
 public class Block : MonoBehaviour
 {
-    private const float SPEED = 30f;
+    private const float SPEED = 20f;
 
     [SerializeField] private GameObject[] trailsObjects;
 
@@ -12,6 +12,8 @@ public class Block : MonoBehaviour
 
     private Vector3 startPosition, newPosition;
     private float time, duration;
+
+    private Animator animator;
 
     public void Initialize(PlatformManager.ColorBlock colorBlock, int posX, int posY, MovementSystem movementSystem) {
         Initialize(colorBlock.color, posX, posY, movementSystem);
@@ -27,6 +29,8 @@ public class Block : MonoBehaviour
         this.type = type;
         this.posX = posX;
         this.posY = posY;
+
+        animator = GetComponent<Animator>();
 
         startPosition = new Vector3(posX, -posY, 1);
         newPosition = startPosition;
@@ -74,6 +78,18 @@ public class Block : MonoBehaviour
         enabled = true;
     }
 
+    public void DestroyBlock() {
+        HideAllTrails();
+
+        if(animator != null) {
+            animator.Play("DestroyBlock");
+        }
+    }
+
+    public void Destroy() {
+        Destroy(gameObject);
+    }
+
     public FieldType GetBlockType() {
         return type;
     }
@@ -83,9 +99,7 @@ public class Block : MonoBehaviour
             return;
         }
 
-        foreach(GameObject trail in trailsObjects) {
-            trail.SetActive(false);
-        }
+        HideAllTrails();
 
         if(!show) {
             return;
@@ -105,6 +119,12 @@ public class Block : MonoBehaviour
                 trailsObjects[3].SetActive(true);
                 break;
 
+        }
+    }
+
+    private void HideAllTrails() {
+        foreach(GameObject trail in trailsObjects) {
+            trail.SetActive(false);
         }
     }
 }

@@ -5087,7 +5087,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: 1
-  level: 78
+  level: 71
   movementSystem: {fileID: 1592803404}
   platformManager: {fileID: 1859880273}
   cameraController: {fileID: 519420033}
