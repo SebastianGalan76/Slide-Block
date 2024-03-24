@@ -12,6 +12,7 @@ public class UIGame : MonoBehaviour
     [SerializeField] private Button skipButton;
 
     [SerializeField] private LevelManager levelManager;
+    [SerializeField] private UIPause pausePanel;
 
     private Animator pauseButtonAnim;
 
@@ -46,9 +47,11 @@ public class UIGame : MonoBehaviour
         if(isPaused) {
             pauseButtonAnim.Play("Pause");
             levelManager.PauseLevel();
+            pausePanel.ShowPanel();
         } else {
             pauseButtonAnim.Play("Resume");
             levelManager.ResumeLevel();
+            pausePanel.HidePanel();
         }
     }
 
