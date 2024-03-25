@@ -153,21 +153,13 @@ public class PlatformManager : MonoBehaviour
                 }
 
                 if(platform[x, y] == FieldType.DESTRUCTIVE) {
-                    if(block is StoppableBlock) {
-                        block.DestroyBlock();
-                        movementSystem.ChangeTotalBlocksCount(-1);
-                        movingBlocks[x, y] = null;
+                    movementSystem.ChangeTotalBlocksCount(-1);
+                    block.DestroyBlock();
+                    movingBlocks[x, y] = null;
 
-                        continue;
-                    } else {
-
-                        block.DestroyBlock();
-                        movementSystem.ChangeTotalBlocksCount(-1);
-                        movingBlocks[x, y] = null;
+                    if(block is not StoppableBlock) {
                         levelIsLost = true;
                     }
-
-                    
                 }
 
                 if(block is StoppableBlock) {
@@ -182,7 +174,14 @@ public class PlatformManager : MonoBehaviour
         }
 
         if(levelIsFinished) {
-            levelManager.FinishLevel();
+            StartCoroutine(wait());
+
+            IEnumerator wait() {
+                yield return new WaitForSeconds(0.5f);
+
+                levelManager.FinishLevel();
+            }
+            return;
         }
 
         if(levelIsLost) {
@@ -193,7 +192,6 @@ public class PlatformManager : MonoBehaviour
 
                 levelManager.LostLevel();
             }
-
         } else {
             movementSystem.enabled = true;
         }

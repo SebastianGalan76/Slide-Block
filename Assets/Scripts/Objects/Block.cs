@@ -86,7 +86,7 @@ public class Block : MonoBehaviour
         }
     }
 
-    public void Destroy() {
+    public void DestroyGameObject() {
         Destroy(gameObject);
     }
 

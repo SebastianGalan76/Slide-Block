@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -18,6 +17,11 @@ public class LevelManager : MonoBehaviour
         StartLevel(stage, level);
     }
 
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.X)) {
+            StartNextLevel();
+        }
+    }
     public void FinishLevel() {
         movementSystem.enabled = false;
         UserData.FinishLevel(stage, level);

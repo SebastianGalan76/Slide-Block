@@ -4782,14 +4782,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   borderPrefab: {fileID: 4137225646716280597, guid: 8842e94818744604cb41e2b08bc8a33c, type: 3}
   borders:
-  - sprite: {fileID: 721924524, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
+  - sprite: {fileID: 1560193373, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
     border: 000000000000000000
-  - sprite: {fileID: -372760489, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
+  - sprite: {fileID: -138236925, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
     border: 000000000000000001
-  - sprite: {fileID: 502070818, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
-    border: 020102010001020102
-  - sprite: {fileID: 2110954253, guid: b9c1a7b4d9597924fb22505ac1974925, type: 3}
+  - sprite: {fileID: 256982458, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
     border: 000000000000020102
+  - sprite: {fileID: 925458856, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 000000000000010000
+  - sprite: {fileID: -1027971429, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102010000020000
+  - sprite: {fileID: 1210642280, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102000001000002
+  - sprite: {fileID: -1233287497, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010102010000020001
+  - sprite: {fileID: 1126457022, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020101000001010002
+  - sprite: {fileID: 936447788, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010101010001020002
+  - sprite: {fileID: -2074701742, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 000002000001000002
+  - sprite: {fileID: 435864404, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102010001020102
+  - sprite: {fileID: 1746965451, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020000010000020000
+  - sprite: {fileID: 493421443, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102000000000000
+  - sprite: {fileID: -455794741, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010000000000000000
+  - sprite: {fileID: -455794741, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010000000000000000
+  - sprite: {fileID: 1867152222, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 000001000000000000
+  - sprite: {fileID: -596837250, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 000002000001020102
+  - sprite: {fileID: 921838734, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020000010000020102
 --- !u!1 &1891434212
 GameObject:
   m_ObjectHideFlags: 0
@@ -5087,7 +5115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: 1
-  level: 71
+  level: 1
   movementSystem: {fileID: 1592803404}
   platformManager: {fileID: 1859880273}
   cameraController: {fileID: 519420033}
