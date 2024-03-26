@@ -1,5 +1,4 @@
 using TMPro;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -10,6 +9,9 @@ public class LevelButton : MonoBehaviour
 
     private int stageNumber;
     private int levelNumber;
+    UserData.LevelStatus levelStatus;
+
+
 
     public void Initialize(int stage, int level) {
         stageNumber = stage;
@@ -17,7 +19,7 @@ public class LevelButton : MonoBehaviour
 
         gameObject.name = level.ToString();
 
-        UserData.LevelStatus levelStatus = UserData.GetLevelStatus(stage, level);
+        levelStatus = UserData.GetLevelStatus(stage, level);
         GetComponent<Button>().onClick.AddListener(() => { StartLevel(); });
 
         if(levelStatus.unlocked) {
