@@ -14,14 +14,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private UILevelFailed levelFailedUI;
 
     private void Start() {
+        stage = PlayerPrefs.GetInt("Stage");
+        level = PlayerPrefs.GetInt("Level");
+
         StartLevel(stage, level);
     }
 
-    private void Update() {
-        if(Input.GetKeyDown(KeyCode.X)) {
-            StartNextLevel();
-        }
-    }
     public void FinishLevel() {
         movementSystem.enabled = false;
         UserData.FinishLevel(stage, level);
@@ -66,5 +64,11 @@ public class LevelManager : MonoBehaviour
 
         movementSystem.enabled = true;
         gameUI.ChangeLevel(level);
+
+        Time.timeScale = 1;
+
+        PlayerPrefs.SetInt("LastPlayedStage", stage);
+        PlayerPrefs.SetInt("LastPlayedLevel", level);
+        PlayerPrefs.Save();
     }
 }

@@ -17,16 +17,20 @@ public class UserData
     public static void FinishLevel(int stage, int level) {
         LoadDocument();
 
-        XmlNode stageNode = GetOrCreateStageNode(stage);
-        XmlNode levelNode = GetOrCreateLevelNode(stageNode, level);
+        if(!GetLevelStatus(stage, level).finished) {
+            XmlNode stageNode = GetOrCreateStageNode(stage);
+            XmlNode levelNode = GetOrCreateLevelNode(stageNode, level);
 
-        XmlNode finishedNode = levelNode.SelectSingleNode("finished");
-        if(finishedNode != null) {
-            finishedNode.InnerText = "true";
-        } else {
-            XmlElement finishedElement = doc.CreateElement("finished");
-            finishedElement.InnerText = "true";
-            levelNode.AppendChild(finishedElement);
+            XmlNode finishedNode = levelNode.SelectSingleNode("finished");
+            if(finishedNode != null) {
+                finishedNode.InnerText = "true";
+            } else {
+                XmlElement finishedElement = doc.CreateElement("finished");
+                finishedElement.InnerText = "true";
+                levelNode.AppendChild(finishedElement);
+            }
+
+            IncreaseStarAmountForStage(stage);
         }
 
         level++;
@@ -58,7 +62,7 @@ public class UserData
         SaveDocument();
     }
 
-    public LevelStatus GetLevelStatus(int stage, int level) {
+    public static LevelStatus GetLevelStatus(int stage, int level) {
         LoadDocument();
 
         XmlNode levelsNode = doc.SelectSingleNode("//levels");
@@ -91,6 +95,54 @@ public class UserData
         return new LevelStatus(unlocked, finished);
     }
 
+    public static int GetTotalStarAmount() {
+        LoadDocument();
+
+        int amount = 0;
+
+        XmlNode statisticNode = doc.SelectSingleNode("//statistic");
+        if(statisticNode == null) {
+            return 0;
+        }
+
+        XmlNodeList stageNodes = statisticNode.SelectNodes("stage");
+        foreach(XmlNode stageNode in stageNodes) {
+            XmlNode starAmountNode = stageNode.SelectSingleNode("starAmount");
+
+            if(starAmountNode == null) {
+                continue;
+            }
+            amount += int.Parse(starAmountNode.InnerText);
+        }
+
+
+        return amount;
+    }
+
+    public static int GetStarAmountForStage(int stage) {
+        LoadDocument();
+
+        XmlNode statisticNode = doc.SelectSingleNode("//statistic");
+
+        if(statisticNode==null) {
+            return 0;
+        }
+
+        XmlNode stageNode = statisticNode.SelectSingleNode("stage[@id='" + stage + "']");
+        if(stageNode==null) {
+            return 0;
+        }
+
+        XmlNode starAmount = stageNode.SelectSingleNode("starAmount");
+        if(starAmount==null) {
+            return 0;
+        }
+
+        int amount = int.Parse(starAmount.InnerText);
+        return amount;
+    }
+
+
     private static XmlNode GetOrCreateStageNode(int stage) {
         XmlNode levelsNode = doc.SelectSingleNode("//levels");
         XmlNode stageNode = levelsNode.SelectSingleNode("stage[@id='" + stage + "']");
@@ -111,6 +163,44 @@ public class UserData
             levelNode = levelElement;
         }
         return levelNode;
+    }
+
+    private static void IncreaseStarAmountForStage(int stage) {
+        LoadDocument();
+
+        XmlNode stageNode = GetOrCreateStatisticStageNode(stage);
+
+        XmlNode starAmount = stageNode.SelectSingleNode("starAmount");
+        if(starAmount == null) {
+            XmlElement starAmountElement = doc.CreateElement("starAmount");
+            stageNode.AppendChild(starAmountElement);
+            starAmountElement.InnerText = "1";
+        } else {
+            int currentValue = int.Parse(starAmount.InnerText);
+            starAmount.InnerText = (currentValue + 1).ToString();
+        }
+
+        SaveDocument();
+    }
+
+    private static XmlNode GetOrCreateStatisticStageNode(int stage) {
+        XmlNode statisticNode = doc.SelectSingleNode("//statistic");
+
+        if(statisticNode == null) {
+            XmlElement statisticElement = doc.CreateElement("statistic");
+            doc.SelectSingleNode("userData").AppendChild(statisticElement);
+            statisticNode = statisticElement;
+        }
+
+        XmlNode stageNode = statisticNode.SelectSingleNode("stage[@id='" + stage + "']");
+        if(stageNode == null) {
+            XmlElement stageElement = doc.CreateElement("stage");
+            stageElement.SetAttribute("id", stage.ToString());
+            statisticNode.AppendChild(stageElement);
+            stageNode = stageElement;
+        }
+
+        return stageNode;
     }
 
 

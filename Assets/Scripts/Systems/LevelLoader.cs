@@ -138,6 +138,13 @@ public class LevelLoader
         return destructivePlaces;
     }
 
+    public static int GetLevelAmountForStage(int stage) {
+        LoadDocument();
+
+        XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level");
+        return nodeList.Count;
+    }
+
     private static void LoadDocument() {
         if(isLoaded)
             return;
