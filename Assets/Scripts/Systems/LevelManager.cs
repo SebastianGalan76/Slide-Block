@@ -14,10 +14,16 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private UILevelFailed levelFailedUI;
 
     private void Start() {
-        stage = PlayerPrefs.GetInt("Stage");
-        level = PlayerPrefs.GetInt("Level");
+        /*stage = PlayerPrefs.GetInt("Stage");
+        level = PlayerPrefs.GetInt("Level");*/
 
         StartLevel(stage, level);
+    }
+
+    private void Update() {
+        if(Input.GetKeyDown(KeyCode.M)) {
+            StartNextLevel();
+        }
     }
 
     public void FinishLevel() {

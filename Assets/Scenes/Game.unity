@@ -4901,6 +4901,42 @@ MonoBehaviour:
     border: 000002000001020102
   - sprite: {fileID: 921838734, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
     border: 020000010000020102
+  - sprite: {fileID: 21394075, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010001000000000000
+  - sprite: {fileID: 936447788, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102010001020002
+  - sprite: {fileID: -1126595287, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102000001020102
+  - sprite: {fileID: 496245890, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102000000000001
+  - sprite: {fileID: 1371621068, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 000000000000010001
+  - sprite: {fileID: 1726211680, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020002010001020102
+  - sprite: {fileID: -1116215813, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 000001000000000001
+  - sprite: {fileID: 1582091253, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102010000020102
+  - sprite: {fileID: 546344267, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010000000000010000
+  - sprite: {fileID: -967248343, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102000000010000
+  - sprite: {fileID: -48531944, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010002000001020102
+  - sprite: {fileID: -1634226647, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 000001000000020102
+  - sprite: {fileID: 1076104818, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020001010000020000
+  - sprite: {fileID: 2015243105, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020102000000020102
+  - sprite: {fileID: -2061601814, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020001010000020102
+  - sprite: {fileID: -385779099, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020002010001020002
+  - sprite: {fileID: 1566416347, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010001000000020102
+  - sprite: {fileID: 1606045640, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020001010000020001
 --- !u!1 &1891434212
 GameObject:
   m_ObjectHideFlags: 0
@@ -5198,7 +5234,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: 1
-  level: 1
+  level: 67
   movementSystem: {fileID: 1592803404}
   platformManager: {fileID: 1859880273}
   cameraController: {fileID: 519420033}

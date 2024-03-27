@@ -11,8 +11,13 @@ public class UIMainMenu : MonoBehaviour
 
     [SerializeField] private TMP_Text[] stageStarAmount;
 
+    private Animator animator;
+
     private void Awake() {
         starAmountTotal.SetText(UserData.GetTotalStarAmount().ToString());
+        animator = GetComponent<Animator>();
+
+        Time.timeScale = 1;
     }
 
     public void PlayGame() {
@@ -27,12 +32,12 @@ public class UIMainMenu : MonoBehaviour
     }
 
     public void ShowLevelList() {
-        levelListPanel.SetActive(true);
+        animator.Play("ShowLevelList");
 
         stageStarAmount[0].SetText(UserData.GetStarAmountForStage(1).ToString());
     }
 
     public void HideLevelList() {
-        levelListPanel.SetActive(false);
+        animator.Play("HideLevelList");
     }
 }

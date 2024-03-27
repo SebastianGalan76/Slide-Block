@@ -90,13 +90,25 @@ public class BorderManager : MonoBehaviour
             }
 
 
+            int index = 0;
+            bool foundBorder = false;
             foreach(Border border in borders) {
                 if(border.Compare(values)) {
                     GameObject borderObj = Instantiate(borderPrefab);
                     borderObj.GetComponent<SpriteRenderer>().sprite = border.sprite;
                     borderObj.transform.position = new Vector3(x, -y, 1);
                     borderObj.transform.SetParent(transform, true);
+                    borderObj.name = "Border "+index;
+
+                    foundBorder = true;
+                    break;
                 }
+
+                index++;
+            }
+
+            if(!foundBorder) {
+                Debug.Log("Border not found!");
             }
 
             platform[x, y] = FieldType.BORDER;
