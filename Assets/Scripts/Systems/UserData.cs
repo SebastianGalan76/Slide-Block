@@ -44,6 +44,15 @@ public class UserData
         SaveDocument();
     }
 
+    public static void SkipLevel(int stage, int level) {
+        level++;
+        if(level > 100) {
+            stage++;
+            level = 1;
+        }
+        UnlockLevel(stage, level);
+    }
+
     public static void UnlockLevel(int stage, int level) {
         LoadDocument();
 

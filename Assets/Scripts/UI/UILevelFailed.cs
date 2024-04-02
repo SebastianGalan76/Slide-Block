@@ -1,3 +1,4 @@
+using GoogleMobileAds.Api;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -56,7 +57,9 @@ public class UILevelFailed : MonoBehaviour
     }
 
     public void SkipLevel() {
-        levelManager.StartNextLevel();
+        RewardedAdController.ShowAd((Reward reward) => {
+            levelManager.SkipLevel();
+        });
 
         HidePanel();
     }

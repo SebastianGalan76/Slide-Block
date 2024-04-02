@@ -16,6 +16,9 @@ public class LevelManager : MonoBehaviour
     private void Start() {
         /*stage = PlayerPrefs.GetInt("Stage");
         level = PlayerPrefs.GetInt("Level");*/
+        AdSystem.LoadBanner();
+
+        RewardedAdController.LoadAd();
 
         StartLevel(stage, level);
     }
@@ -62,6 +65,11 @@ public class LevelManager : MonoBehaviour
         }
 
         StartLevel(stage, level);
+    }
+
+    public void SkipLevel() {
+        UserData.SkipLevel(stage, level);
+        StartNextLevel();
     }
 
     private void StartLevel(int stage, int level) {

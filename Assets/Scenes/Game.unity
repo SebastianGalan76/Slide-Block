@@ -3842,7 +3842,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1587149284}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 203949439}
+        m_TargetAssemblyTypeName: UIGame, Assembly-CSharp
+        m_MethodName: SkipLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1587149284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4937,6 +4949,14 @@ MonoBehaviour:
     border: 010001000000020102
   - sprite: {fileID: 1606045640, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
     border: 020001010000020001
+  - sprite: {fileID: 1408145930, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 000002000001010002
+  - sprite: {fileID: 1478479731, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010002000001000002
+  - sprite: {fileID: 46717553, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 020000010000020001
+  - sprite: {fileID: -1902579698, guid: 40212ef9b98dfc442b44318f9dede6a2, type: 3}
+    border: 010000000000020102
 --- !u!1 &1891434212
 GameObject:
   m_ObjectHideFlags: 0
@@ -5234,7 +5254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stage: 1
-  level: 67
+  level: 79
   movementSystem: {fileID: 1592803404}
   platformManager: {fileID: 1859880273}
   cameraController: {fileID: 519420033}

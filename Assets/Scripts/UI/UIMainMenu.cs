@@ -18,6 +18,8 @@ public class UIMainMenu : MonoBehaviour
         animator = GetComponent<Animator>();
 
         Time.timeScale = 1;
+
+        AdSystem.InitializeAdMob();
     }
 
     public void PlayGame() {
