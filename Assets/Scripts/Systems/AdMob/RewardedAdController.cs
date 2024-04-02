@@ -1,8 +1,7 @@
 using GoogleMobileAds.Api;
 using System;
-using UnityEngine;
 
-public class RewardedAdController : MonoBehaviour
+public class RewardedAdController
 {
     private static RewardedAd rewardedAd;
 
@@ -19,6 +18,8 @@ public class RewardedAdController : MonoBehaviour
                     rewardedAd = ad;
 
                     rewardedAd.OnAdFullScreenContentClosed += () => {
+                        AdSystem.ChangeAdValue(-8);
+
                         LoadAd();
                     };
 

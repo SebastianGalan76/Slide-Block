@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour
         AdSystem.LoadBanner();
 
         RewardedAdController.LoadAd();
+        InterstitialAdController.LoadAds();
 
         StartLevel(stage, level);
     }
@@ -80,6 +81,11 @@ public class LevelManager : MonoBehaviour
         gameUI.ChangeLevel(level);
 
         Time.timeScale = 1;
+        AdSystem.ChangeAdValue(1);
+
+        if(stage > 1 || level > 10) {
+            InterstitialAdController.CheckAdValue();
+        }
 
         PlayerPrefs.SetInt("LastPlayedStage", stage);
         PlayerPrefs.SetInt("LastPlayedLevel", level);

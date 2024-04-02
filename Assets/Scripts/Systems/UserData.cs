@@ -4,6 +4,7 @@ using System.Xml;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 
 public class UserData
 {
@@ -151,6 +152,31 @@ public class UserData
         return amount;
     }
 
+    public static int GetAdValue() {
+        LoadDocument();
+
+        int amount = 0;
+
+        XmlNode adValueNode = doc.SelectSingleNode("//adValue");
+        if(adValueNode == null) {
+            return 0;
+        }
+
+        return amount;
+    }
+
+    public static void ChangeAdValue(int adValue) {
+        XmlNode adValueNode = doc.SelectSingleNode("//adValue");
+        if(adValueNode == null) {
+            XmlElement adValueElement = doc.CreateElement("adValue");
+            adValueElement.InnerText = adValue.ToString();
+            doc.SelectSingleNode("userData").AppendChild(adValueElement);
+            return;
+        }
+
+        adValueNode.InnerText = adValue.ToString();
+
+    }
 
     private static XmlNode GetOrCreateStageNode(int stage) {
         XmlNode levelsNode = doc.SelectSingleNode("//levels");
@@ -273,6 +299,10 @@ public class UserData
         XmlElement unlockedElement = doc.CreateElement("unlocked");
         unlockedElement.InnerText = "true";
         levelElement.AppendChild(unlockedElement);
+
+        XmlElement adValueElement = doc.CreateElement("adValue");
+        adValueElement.InnerText = "0";
+        rootElement.AppendChild(adValueElement);
     }
 
     public struct LevelStatus {
