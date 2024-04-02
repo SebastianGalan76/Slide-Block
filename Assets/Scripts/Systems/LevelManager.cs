@@ -16,8 +16,8 @@ public class LevelManager : MonoBehaviour
     private void Start() {
         /*stage = PlayerPrefs.GetInt("Stage");
         level = PlayerPrefs.GetInt("Level");*/
-        AdSystem.LoadBanner();
 
+        BannerAdController.LoadAd();
         RewardedAdController.LoadAd();
         InterstitialAdController.LoadAds();
 

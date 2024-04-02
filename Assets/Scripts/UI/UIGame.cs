@@ -48,16 +48,20 @@ public class UIGame : MonoBehaviour
     }
 
     public void ShowSkipButton() {
-        RectTransform restartRect = restartButton.GetComponent<RectTransform>();
-        restartRect.anchoredPosition = new Vector3(-180, -50);
+        if(restartButton != null && skipButton != null) {
+            RectTransform restartRect = restartButton.GetComponent<RectTransform>();
+            restartRect.anchoredPosition = new Vector3(-180, -50);
 
-        skipButton.gameObject.SetActive(true);
+            skipButton.gameObject.SetActive(true);
+        }
     }
     public void HideSkipButton() {
-        RectTransform restartRect = restartButton.GetComponent<RectTransform>();
-        restartRect.anchoredPosition = new Vector3(-50, -50);
+        if(restartButton != null && skipButton != null) {
+            RectTransform restartRect = restartButton.GetComponent<RectTransform>();
+            restartRect.anchoredPosition = new Vector3(-50, -50);
 
-        skipButton.gameObject.SetActive(false);
+            skipButton.gameObject.SetActive(false);
+        }
     }
 
     public void PauseLevel() {

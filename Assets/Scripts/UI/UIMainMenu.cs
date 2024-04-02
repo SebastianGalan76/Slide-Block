@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,6 +18,7 @@ public class UIMainMenu : MonoBehaviour
         Time.timeScale = 1;
 
         AdSystem.InitializeAdMob();
+        BannerAdController.HideAd();
     }
 
     public void PlayGame() {

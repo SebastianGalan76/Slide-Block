@@ -166,6 +166,8 @@ public class UserData
     }
 
     public static void ChangeAdValue(int adValue) {
+        LoadDocument();
+
         XmlNode adValueNode = doc.SelectSingleNode("//adValue");
         if(adValueNode == null) {
             XmlElement adValueElement = doc.CreateElement("adValue");
