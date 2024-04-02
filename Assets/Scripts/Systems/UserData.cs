@@ -4,7 +4,6 @@ using System.Xml;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 
 public class UserData
 {
@@ -155,14 +154,12 @@ public class UserData
     public static int GetAdValue() {
         LoadDocument();
 
-        int amount = 0;
-
         XmlNode adValueNode = doc.SelectSingleNode("//adValue");
         if(adValueNode == null) {
             return 0;
         }
 
-        return amount;
+        return int.Parse(adValueNode.InnerText);
     }
 
     public static void ChangeAdValue(int adValue) {
