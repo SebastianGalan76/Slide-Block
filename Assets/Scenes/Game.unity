@@ -1698,6 +1698,7 @@ GameObject:
   - component: {fileID: 669420137}
   - component: {fileID: 669420136}
   - component: {fileID: 669420139}
+  - component: {fileID: 669420140}
   m_Layer: 5
   m_Name: BPause
   m_TagString: Untagged
@@ -1841,6 +1842,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &669420140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669420134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeafac055c08afa43bdbf6ec6810d8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
 --- !u!1 &729105571
 GameObject:
   m_ObjectHideFlags: 0
@@ -3919,6 +3933,7 @@ GameObject:
   - component: {fileID: 1587149285}
   - component: {fileID: 1587149284}
   - component: {fileID: 1587149283}
+  - component: {fileID: 1587149286}
   m_Layer: 5
   m_Name: BSkip
   m_TagString: Untagged
@@ -4040,6 +4055,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587149281}
   m_CullTransparentMesh: 1
+--- !u!114 &1587149286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1587149281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeafac055c08afa43bdbf6ec6810d8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
 --- !u!1 &1592803403
 GameObject:
   m_ObjectHideFlags: 0
@@ -5406,6 +5434,7 @@ GameObject:
   - component: {fileID: 2035185265}
   - component: {fileID: 2035185264}
   - component: {fileID: 2035185263}
+  - component: {fileID: 2035185266}
   m_Layer: 5
   m_Name: BRestart
   m_TagString: Untagged
@@ -5527,6 +5556,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035185261}
   m_CullTransparentMesh: 1
+--- !u!114 &2035185266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035185261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aeafac055c08afa43bdbf6ec6810d8b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 1
 --- !u!1 &2112792832
 GameObject:
   m_ObjectHideFlags: 0
