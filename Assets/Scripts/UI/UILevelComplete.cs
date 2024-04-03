@@ -8,7 +8,8 @@ public class UILevelComplete : MonoBehaviour
     [SerializeField] private LevelManager levelManager;
 
     [SerializeField] private TMP_Text levelNumberText;
-    
+    [SerializeField] private ParticleSystem[] confetti;
+
     private Animator panelAnimator;
 
     private void Awake() {
@@ -20,6 +21,15 @@ public class UILevelComplete : MonoBehaviour
 
         panelAnimator.Play("Show");
         levelNumberText.text = "LEVEL " + levelNumber;
+
+        StartCoroutine(WaitForConfetti());
+        IEnumerator WaitForConfetti() {
+            yield return new WaitForSeconds(0.3f);
+
+            foreach(ParticleSystem ps in confetti) {
+                ps.Play();
+            }
+        }
     }
 
     public void OnAnimationFinish() {
