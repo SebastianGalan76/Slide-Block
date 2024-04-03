@@ -40,7 +40,7 @@ public class Block : MonoBehaviour
     private void Update() {
         time += Time.deltaTime;
         float t = Mathf.Clamp01(time / duration);
-        transform.position = Vector3.Lerp(startPosition, newPosition, t);
+        transform.localPosition = Vector3.Lerp(startPosition, newPosition, t);
 
         if(time >= duration) {
             enabled = false;
@@ -49,7 +49,7 @@ public class Block : MonoBehaviour
     }
 
     public virtual void Move(DirectionType direction, int value, bool showTrail) {
-        startPosition = transform.position;
+        startPosition = transform.localPosition;
         switch (direction) {
             case DirectionType.RIGHT:
                 posX += value;
@@ -94,6 +94,12 @@ public class Block : MonoBehaviour
         return type;
     }
 
+    public void HideAllTrails() {
+        foreach(GameObject trail in trailsObjects) {
+            trail.SetActive(false);
+        }
+    }
+
     private void ShowTrail(DirectionType movementDirection, bool show) {
         if(trailsObjects.Length != 4) {
             return;
@@ -119,12 +125,6 @@ public class Block : MonoBehaviour
                 trailsObjects[3].SetActive(true);
                 break;
 
-        }
-    }
-
-    private void HideAllTrails() {
-        foreach(GameObject trail in trailsObjects) {
-            trail.SetActive(false);
         }
     }
 }

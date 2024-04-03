@@ -12,6 +12,7 @@ public class PlatformManager : MonoBehaviour
     [SerializeField] private LevelManager levelManager;
 
     [Header("Prefabs")]
+    [SerializeField] private GameObject levelContainerPrefab;
     [SerializeField] private GameObject platformPrefab;
     [SerializeField] private GameObject movingBlockPrefab, destinationPlacePrefab;
     [SerializeField] private GameObject stoppableBlockPrefab;
@@ -25,6 +26,8 @@ public class PlatformManager : MonoBehaviour
     private Dictionary<int, int> colorBlockType;
     private BorderManager borderManager;
 
+    private LevelContainer levelContainer;
+
     private void Awake() {
         borderManager = GetComponent<BorderManager>();
     }
@@ -34,8 +37,17 @@ public class PlatformManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        if(levelContainer != null) {
+            levelContainer.HideLevel();
+        }
+
+        GameObject levelContainerObj = Instantiate(levelContainerPrefab);
+        levelContainer = levelContainerObj.GetComponent<LevelContainer>();
+        levelContainer.Initialize(stage, level);
+        levelContainer.transform.position = new Vector3(level * 100f, stage * 100);
+
         platform = LoadPlatform(stage, level);
-        borderManager.GenerateBorder(platform, PLATFORM_SIZE);
+        borderManager.GenerateBorder(platform, PLATFORM_SIZE, levelContainer.GetPlatformParent());
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
@@ -43,9 +55,10 @@ public class PlatformManager : MonoBehaviour
                     continue;
                 }
 
-                GameObject platformObj = Instantiate(platformPrefab, new Vector3(x, -y, 1), Quaternion.identity);
+                GameObject platformObj = Instantiate(platformPrefab);
+                platformObj.transform.localPosition = new Vector3(x, -y, 1);
                 platformObj.name = "Platform (" + x + ", " + y + ")";
-                platformObj.transform.SetParent(transform, true);
+                platformObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
             }
         }
 
@@ -66,7 +79,7 @@ public class PlatformManager : MonoBehaviour
 
                 GameObject blockObj = Instantiate(movingBlockPrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
                 blockObj.GetComponent<SpriteRenderer>().sprite = colorBlock.movingBlockSprite;
-                blockObj.transform.SetParent(transform, true);
+                blockObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
                 int x = blockValue.positionPlatform % PLATFORM_SIZE;
                 int y = blockValue.positionPlatform / PLATFORM_SIZE;
@@ -91,7 +104,7 @@ public class PlatformManager : MonoBehaviour
 
                 GameObject placeObj = Instantiate(destinationPlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
                 placeObj.GetComponent<SpriteRenderer>().sprite = colorBlock.destinationPlaceSprite;
-                placeObj.transform.SetParent(transform, true);
+                placeObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
                 int x = blockValue.positionPlatform % PLATFORM_SIZE;
                 int y = blockValue.positionPlatform / PLATFORM_SIZE;
@@ -108,7 +121,7 @@ public class PlatformManager : MonoBehaviour
         int stoppableBlockIndex = 0;
         foreach(BlockValues blockValues in stoppableBlocks) {
             GameObject blockObj = Instantiate(stoppableBlockPrefab, new Vector3(blockValues.posX, blockValues.posY, 1), Quaternion.identity);
-            blockObj.transform.SetParent(transform, true);
+            blockObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
             int x = blockValues.positionPlatform % PLATFORM_SIZE;
             int y = blockValues.positionPlatform / PLATFORM_SIZE;
@@ -126,7 +139,7 @@ public class PlatformManager : MonoBehaviour
         int destructivePlaceIndex = 0;
         foreach(BlockValues blockValue in destructivePlaces) {
             GameObject placeObj = Instantiate(destructivePlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
-            placeObj.transform.SetParent(transform, true);
+            placeObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
             int x = blockValue.positionPlatform % PLATFORM_SIZE;
             int y = blockValue.positionPlatform / PLATFORM_SIZE;
@@ -136,13 +149,14 @@ public class PlatformManager : MonoBehaviour
             destructivePlaceIndex++;
         }
 
+        levelContainer.ShowLevel();
         movementSystem.StartNewLevel(totalMovingBlocks);
     }
 
     public void CheckPlatform() {
         movementSystem.enabled = false;
 
-        bool levelIsFinished = true;
+        bool levelIsComplete = true;
         bool levelIsLost = false;
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
@@ -167,19 +181,20 @@ public class PlatformManager : MonoBehaviour
                 }
 
                 if(block.GetBlockType() != platform[x, y]) {
-                    levelIsFinished = false;
+                    levelIsComplete = false;
                 }
 
             }
         }
 
-        if(levelIsFinished) {
+        if(levelIsComplete) {
             StartCoroutine(wait());
 
             IEnumerator wait() {
                 yield return new WaitForSeconds(0.5f);
 
-                levelManager.FinishLevel();
+                EndLevel();
+                levelManager.CompleteLevel();
             }
             return;
         }
@@ -190,10 +205,19 @@ public class PlatformManager : MonoBehaviour
             IEnumerator wait() {
                 yield return new WaitForSeconds(1.5f);
 
+                EndLevel();
                 levelManager.LostLevel();
             }
         } else {
             movementSystem.enabled = true;
+        }
+    }
+
+    private void EndLevel() {
+        foreach(Block block in movingBlocks) {
+            if(block != null) {
+                block.HideAllTrails();
+            }
         }
     }
 

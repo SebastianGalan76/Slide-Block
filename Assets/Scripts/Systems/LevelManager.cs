@@ -6,7 +6,6 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private MovementSystem movementSystem;
     [SerializeField] private PlatformManager platformManager;
-    [SerializeField] private CameraController cameraController;
 
     [Header("User Interface")]
     [SerializeField] private UIGame gameUI;
@@ -14,8 +13,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private UILevelFailed levelFailedUI;
 
     private void Start() {
-        stage = PlayerPrefs.GetInt("Stage");
-        level = PlayerPrefs.GetInt("Level");
+        //stage = PlayerPrefs.GetInt("Stage");
+        //level = PlayerPrefs.GetInt("Level");
 
         BannerAdController.LoadAd();
         RewardedAdController.LoadAd();
@@ -30,9 +29,9 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void FinishLevel() {
+    public void CompleteLevel() {
         movementSystem.enabled = false;
-        UserData.FinishLevel(stage, level);
+        UserData.CompleteLevel(stage, level);
 
         levelCompleteUI.ShowPanel(level);
     }
@@ -75,7 +74,6 @@ public class LevelManager : MonoBehaviour
 
     private void StartLevel(int stage, int level) {
         platformManager.LoadLevel(stage, level);
-        cameraController.LoadCamera(stage, level);
 
         movementSystem.enabled = true;
         gameUI.ChangeLevel(level);

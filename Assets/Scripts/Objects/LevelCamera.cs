@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class LevelCamera : MonoBehaviour
 {
     private new Camera camera;
 
@@ -8,8 +8,7 @@ public class CameraController : MonoBehaviour
         camera = GetComponent<Camera>();  
     }
 
-    public void LoadCamera(int stage, int level) {
-        (float size, float posX, float posY) = LevelLoader.LoadCamera(stage, level);
+    public void LoadCamera(float size, float posX, float posY) {
         camera.transform.position = new Vector3(posX, posY, -10);
         camera.orthographicSize = size;
 

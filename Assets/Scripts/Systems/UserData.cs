@@ -14,7 +14,7 @@ public class UserData
     private static bool isLoaded;
     private static XmlDocument doc;
 
-    public static void FinishLevel(int stage, int level) {
+    public static void CompleteLevel(int stage, int level) {
         LoadDocument();
 
         if(!GetLevelStatus(stage, level).finished) {

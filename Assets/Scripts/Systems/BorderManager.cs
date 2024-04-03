@@ -5,7 +5,7 @@ public class BorderManager : MonoBehaviour
     [SerializeField] private GameObject borderPrefab;
     public Border[] borders;
 
-    public void GenerateBorder(FieldType[,] platform, int PLATFORM_SIZE) {
+    public void GenerateBorder(FieldType[,] platform, int PLATFORM_SIZE, Transform platformParent) {
         for(int i = 0;i < PLATFORM_SIZE;i++) {
             for(int j = 0;j < PLATFORM_SIZE;j++) {
                 if(platform[i, j] == FieldType.PLATFORM) {
@@ -97,7 +97,7 @@ public class BorderManager : MonoBehaviour
                     GameObject borderObj = Instantiate(borderPrefab);
                     borderObj.GetComponent<SpriteRenderer>().sprite = border.sprite;
                     borderObj.transform.position = new Vector3(x, -y, 1);
-                    borderObj.transform.SetParent(transform, true);
+                    borderObj.transform.SetParent(platformParent, false);
                     borderObj.name = "Border "+index;
 
                     foundBorder = true;
