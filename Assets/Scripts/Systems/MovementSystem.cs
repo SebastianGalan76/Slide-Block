@@ -132,6 +132,7 @@ public class MovementSystem : MonoBehaviour
 
     private void MoveRight() {
         Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
+        bool playSound = false;
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
@@ -162,6 +163,10 @@ public class MovementSystem : MonoBehaviour
                     xNew++;
                 }
 
+                if(movementAmount > 0) {
+                    playSound = true;
+                }
+
                 bool showTrail = platformManager.movingBlocks[x - 1, y] == null;
                 movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x + movementAmount, y, showTrail));
             }
@@ -174,9 +179,14 @@ public class MovementSystem : MonoBehaviour
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
         platformManager.movingBlocks = newMovingBlocks;
+
+        if(playSound) {
+            AudioManager.Instance.PlaySound(SoundType.SLIDE);
+        }
     }
     private void MoveLeft() {
         Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
+        bool playSound = false;
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
@@ -206,6 +216,9 @@ public class MovementSystem : MonoBehaviour
 
                     xNew--;
                 }
+                if(movementAmount > 0) {
+                    playSound = true;
+                }
 
                 bool showTrail = platformManager.movingBlocks[x + 1, y] == null;
                 movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x - movementAmount, y, showTrail));
@@ -219,9 +232,14 @@ public class MovementSystem : MonoBehaviour
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
         platformManager.movingBlocks = newMovingBlocks;
+
+        if(playSound) {
+            AudioManager.Instance.PlaySound(SoundType.SLIDE);
+        }
     }
     private void MoveUp() {
         Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
+        bool playSound = false;
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
@@ -251,6 +269,9 @@ public class MovementSystem : MonoBehaviour
 
                     yNew--;
                 }
+                if(movementAmount > 0) {
+                    playSound = true;
+                }
 
                 bool showTrail = platformManager.movingBlocks[x, y + 1] == null;
                 movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x, y - movementAmount, showTrail));
@@ -264,9 +285,14 @@ public class MovementSystem : MonoBehaviour
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
         platformManager.movingBlocks = newMovingBlocks;
+
+        if(playSound) {
+            AudioManager.Instance.PlaySound(SoundType.SLIDE);
+        }
     }
     private void MoveDown() {
         Dictionary<Block, Movement> movement = new Dictionary<Block, Movement>();
+        bool playSound = false;
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
             for(int y = 0;y < PLATFORM_SIZE;y++) {
@@ -296,6 +322,9 @@ public class MovementSystem : MonoBehaviour
 
                     yNew++;
                 }
+                if(movementAmount > 0) {
+                    playSound = true;
+                }
 
                 bool showTrail = platformManager.movingBlocks[x, y - 1] == null;
                 movement.Add(platformManager.movingBlocks[x, y], new Movement(movementAmount, x, y + movementAmount, showTrail));
@@ -309,6 +338,10 @@ public class MovementSystem : MonoBehaviour
             newMovingBlocks[item.Value.xNew, item.Value.yNew] = item.Key;
         }
         platformManager.movingBlocks = newMovingBlocks;
+
+        if(playSound) {
+            AudioManager.Instance.PlaySound(SoundType.SLIDE);
+        }
     }
 
     public struct Movement {

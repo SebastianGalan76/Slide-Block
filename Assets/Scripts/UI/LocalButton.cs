@@ -2,9 +2,9 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonCooldown : MonoBehaviour
+public class LocalButton : MonoBehaviour
 {
-    [SerializeField] private float cooldown = 1f;
+    [SerializeField] private float cooldown = 0f;
 
     private Button button;
 
@@ -16,8 +16,12 @@ public class ButtonCooldown : MonoBehaviour
 
     private void OnClick() {
         if(button.interactable) {
-            StartCoroutine(ResetCooldown());
-            button.interactable = false;
+            if(cooldown > 0) {
+                StartCoroutine(ResetCooldown());
+                button.interactable = false;
+            }
+
+            AudioManager.Instance.PlaySound(SoundType.BUTTON);
         }
 
         IEnumerator ResetCooldown() {

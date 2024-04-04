@@ -3,15 +3,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LevelButton : MonoBehaviour
+public class LevelButton : LocalButton
 {
     [SerializeField] private Sprite lockedSprite;
 
     private int stageNumber;
     private int levelNumber;
     UserData.LevelStatus levelStatus;
-
-
 
     public void Initialize(int stage, int level) {
         stageNumber = stage;

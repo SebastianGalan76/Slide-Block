@@ -30,6 +30,8 @@ public class UILevelFailed : MonoBehaviour
         restartButton.SetActive(false);
         panelAnimator.Play("Show");
 
+        AudioManager.Instance.PlaySound(SoundType.LEVEL_FAILED);
+
         InvokeRepeating("Countdown", 1f, 1f);
     }
 

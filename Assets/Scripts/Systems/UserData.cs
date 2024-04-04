@@ -4,6 +4,8 @@ using System.Xml;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
+using GoogleMobileAds.Api;
+using Unity.VisualScripting;
 
 public class UserData
 {
@@ -174,7 +176,41 @@ public class UserData
         }
 
         adValueNode.InnerText = adValue.ToString();
+    }
 
+    public static void LoadAudioSettings(ref AudioType sound, ref AudioType music) {
+        LoadDocument();
+
+        XmlNode settingsNode = GetOrCreateSettingsStageNode();
+
+        XmlNode soundElement = settingsNode.SelectSingleNode("sound");
+        sound.SetEnabled(soundElement.InnerText == "1" ? true : false);
+
+        XmlNode musicElement = settingsNode.SelectSingleNode("music");
+        music.SetEnabled(musicElement.InnerText == "1" ? true : false);
+    }
+
+    public static void SaveAudioSettings(AudioType sound, AudioType music) {
+        LoadDocument();
+
+        XmlNode settingsNode = GetOrCreateSettingsStageNode();
+        XmlNode soundNode = settingsNode.SelectSingleNode("sound");
+        if(soundNode == null) {
+            XmlElement soundElement = doc.CreateElement("sound");
+            settingsNode.AppendChild(soundElement);
+            soundNode = soundElement;
+        }
+        soundNode.InnerText = sound.IsEnabled() ? "1" : "0";
+
+        XmlNode musicNode = settingsNode.SelectSingleNode("music");
+        if(musicNode == null) {
+            XmlElement musicElement = doc.CreateElement("music");
+            settingsNode.AppendChild(musicElement);
+            musicNode = musicElement;
+        }
+        musicNode.InnerText = music.IsEnabled() ? "1" : "0";
+
+        SaveDocument();
     }
 
     private static XmlNode GetOrCreateStageNode(int stage) {
@@ -235,6 +271,18 @@ public class UserData
         }
 
         return stageNode;
+    }
+
+    private static XmlNode GetOrCreateSettingsStageNode() {
+        XmlNode settingsNode = doc.SelectSingleNode("//settings");
+
+        if(settingsNode == null) {
+            XmlElement settingsElement = doc.CreateElement("settings");
+            doc.SelectSingleNode("userData").AppendChild(settingsElement);
+            settingsNode = settingsElement;
+        }
+
+        return settingsNode;
     }
 
 
@@ -302,6 +350,17 @@ public class UserData
         XmlElement adValueElement = doc.CreateElement("adValue");
         adValueElement.InnerText = "0";
         rootElement.AppendChild(adValueElement);
+
+        XmlElement settingsElement = doc.CreateElement("settings");
+        rootElement.AppendChild(settingsElement);
+
+        XmlElement soundElement = doc.CreateElement("sound");
+        soundElement.InnerText = "1";
+        settingsElement.AppendChild(soundElement);
+
+        XmlElement musicElement = doc.CreateElement("music");
+        musicElement.InnerText = "1";
+        settingsElement.AppendChild(musicElement);
     }
 
     public struct LevelStatus {

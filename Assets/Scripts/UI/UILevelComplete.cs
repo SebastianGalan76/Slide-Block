@@ -26,6 +26,7 @@ public class UILevelComplete : MonoBehaviour
         IEnumerator WaitForConfetti() {
             yield return new WaitForSeconds(0.3f);
 
+            AudioManager.Instance.PlaySound(SoundType.LEVEL_COMPLETE);
             foreach(ParticleSystem ps in confetti) {
                 ps.Play();
             }

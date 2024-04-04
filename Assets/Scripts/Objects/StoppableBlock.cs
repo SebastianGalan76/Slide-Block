@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class StoppableBlock : Block
 {
@@ -19,6 +20,10 @@ public class StoppableBlock : Block
     }
 
     private void OnMouseDown() {
+        if(EventSystem.current.IsPointerOverGameObject()) {
+            return;
+        }
+
         startPositionX = Input.mousePosition.x;
         startPositionY = Input.mousePosition.y;
         performedMovement = false;
@@ -55,6 +60,7 @@ public class StoppableBlock : Block
 
     public void OnClick() {
         isStopped = !isStopped;
+        AudioManager.Instance.PlaySound(SoundType.STOPPABLE_BLOCK);
 
         if(isStopped) {
             spriteRenderer.sprite = stoppedBlockSprite;
