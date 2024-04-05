@@ -17,6 +17,9 @@
 /Assets/Scripts/Systems/AdSystem*
 /Assets/GoogleMobileAds/*
 /Assets/ExternalDependencyManager/*
+/Assets/GooglePlayGames/*
+/Assets/GPGSIds.cs
+ProjectSettings/Google*
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
