@@ -19,6 +19,8 @@ public class UIMainMenu : MonoBehaviour
 
         AdSystem.InitializeAdMob();
         BannerAdController.HideAd();
+
+        Leaderboard.Authenticate();
     }
 
     public void PlayGame() {
@@ -40,5 +42,9 @@ public class UIMainMenu : MonoBehaviour
 
     public void HideLevelList() {
         animator.Play("HideLevelList");
+    }
+
+    public void ShowLeaderboard() {
+        Leaderboard.Show();
     }
 }

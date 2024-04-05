@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
 using System.IO;
 using UnityEngine;
 using UnityEditor;
-using GoogleMobileAds.Api;
-using Unity.VisualScripting;
 
 public class UserData
 {
@@ -15,6 +11,8 @@ public class UserData
     private static string filePath;
     private static bool isLoaded;
     private static XmlDocument doc;
+
+    private static int starAmount = -1;
 
     public static void CompleteLevel(int stage, int level) {
         LoadDocument();
@@ -32,6 +30,12 @@ public class UserData
                 levelNode.AppendChild(finishedElement);
             }
 
+            if(starAmount == -1) {
+                starAmount = GetTotalStarAmount();
+            }
+            starAmount++;
+
+            Leaderboard.ReportScore(starAmount);
             IncreaseStarAmountForStage(stage);
         }
 
@@ -107,6 +111,9 @@ public class UserData
     }
 
     public static int GetTotalStarAmount() {
+        if(starAmount != -1) {
+            return starAmount;
+        }
         LoadDocument();
 
         int amount = 0;
@@ -126,7 +133,7 @@ public class UserData
             amount += int.Parse(starAmountNode.InnerText);
         }
 
-
+        starAmount = amount;
         return amount;
     }
 

@@ -20,6 +20,7 @@
 /Assets/GooglePlayGames/*
 /Assets/GPGSIds.cs
 ProjectSettings/Google*
+/Assets/Scripts/Systems/Leaderboard.cs
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data

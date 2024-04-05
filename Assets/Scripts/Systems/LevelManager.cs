@@ -13,8 +13,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private UILevelFailed levelFailedUI;
 
     private void Start() {
-        //stage = PlayerPrefs.GetInt("Stage");
-        //level = PlayerPrefs.GetInt("Level");
+        stage = PlayerPrefs.GetInt("Stage");
+        level = PlayerPrefs.GetInt("Level");
 
         BannerAdController.LoadAd();
         RewardedAdController.LoadAd();
