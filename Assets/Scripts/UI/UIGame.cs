@@ -12,6 +12,7 @@ public class UIGame : MonoBehaviour
 
     [SerializeField] private LevelManager levelManager;
     [SerializeField] private UIPause pauseUI;
+    [SerializeField] private UIInfo infoUI;
 
     private Animator pauseButtonAnim;
 
@@ -34,6 +35,10 @@ public class UIGame : MonoBehaviour
     }
 
     public void ChangeLevel(int level) {
+        if(level == 21) {
+            infoUI.ShowInfo(InfoType.STOPPABLE_BLOCK);
+        }
+
         foreach(TMP_Text text in levelNumberText) {
             text.SetText("Level " + level);
         }
