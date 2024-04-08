@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class UIMainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject levelListPanel;
+    [SerializeField] private GameObject settingsPanel;
+
     [SerializeField] private TMP_Text starAmountTotal;
 
     [SerializeField] private TMP_Text[] stageStarAmount;
@@ -43,6 +45,14 @@ public class UIMainMenu : MonoBehaviour
 
     public void HideLevelList() {
         animator.Play("HideLevelList");
+    }
+
+    public void ShowSettings() {
+        settingsPanel.SetActive(true);
+    }
+
+    public void HideSettings() {
+        settingsPanel.SetActive(false);
     }
 
     public void ShowLeaderboard() {
