@@ -6,10 +6,14 @@ public class RewardedAdController
     private static RewardedAd rewardedAd;
 
     public delegate void AdLoadedHandler();
+    public delegate void AdIsNotLoadedHandler();
+
     public static event AdLoadedHandler OnAdLoaded;
 
     public static void LoadAd() {
-        DestroyAd();
+        if(!IsReady()) {
+            DestroyAd();
+        }
 
         AdRequest adRequest = new AdRequest();
         RewardedAd.Load(AdSystem.GetAdId(AdType.REWARDED), adRequest,
@@ -27,15 +31,19 @@ public class RewardedAdController
                         LoadAd();
                     };
 
-                    OnAdLoaded.Invoke();
+                    OnAdLoaded?.Invoke();
                 }
             });
     }
-    public static void ShowAd(Action<Reward> rewardHandler) {
+    public static void ShowAd(Action<Reward> rewardHandler, AdIsNotLoadedHandler adIsNotLoadedAction = null) {
         if(rewardedAd != null && rewardedAd.CanShowAd()) {
             rewardedAd.Show((Reward reward) => {
                 rewardHandler?.Invoke(reward);
             });
+        } else {
+            if(adIsNotLoadedAction != null) {
+                adIsNotLoadedAction();
+            }
         }
     }
     private static void DestroyAd() {

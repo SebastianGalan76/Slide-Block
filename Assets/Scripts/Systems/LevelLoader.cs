@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class LevelLoader
@@ -143,6 +144,13 @@ public class LevelLoader
 
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level");
         return nodeList.Count;
+    }
+
+    public static bool LevelExist(int stage, int level) {
+        LoadDocument();
+
+        XmlNode node = doc.SelectSingleNode("//stage[@id='" + stage + "']/level[@id='" + level + "']");
+        return node == null ? false : true;
     }
 
     private static void LoadDocument() {

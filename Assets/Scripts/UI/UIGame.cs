@@ -96,6 +96,8 @@ public class UIGame : MonoBehaviour
             }
 
             levelManager.SkipLevel();
+        }, delegate () {
+            infoUI.ShowInfo(InfoType.AD_IS_NOT_LOADED);
         });
     }
 }

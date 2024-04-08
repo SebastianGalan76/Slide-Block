@@ -1,14 +1,18 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIInfo : MonoBehaviour
 {
     [SerializeField] private Info[] infoArray;
 
-    public void ShowInfo(InfoType infoType) {
+    public delegate void OnClickActionHandler();
+    private OnClickActionHandler action;
+
+    public void ShowInfo(InfoType infoType, OnClickActionHandler action = null) {
         if(infoArray == null) {
             return;
         }
+
+        this.action = action;
 
         foreach(Info info in infoArray) {
             if(info.type == infoType) {
@@ -31,10 +35,16 @@ public class UIInfo : MonoBehaviour
             info.Hide();
         }
     }
+
+    public void PerformAction() {
+        if(action != null) {
+            action();
+        }
+    }
 }
 
 public enum InfoType {
-    STOPPABLE_BLOCK
+    STOPPABLE_BLOCK, LEVEL_LOCKED, FINISHED_ALL_LEVELS, AD_IS_NOT_LOADED
 }
 [System.Serializable]
 public struct Info {

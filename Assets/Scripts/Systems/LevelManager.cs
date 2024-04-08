@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class LevelManager : MonoBehaviour
 
     [Header("User Interface")]
     [SerializeField] private UIGame gameUI;
+    [SerializeField] private UIInfo infoUI;
+
     [SerializeField] private UILevelComplete levelCompleteUI;
     [SerializeField] private UILevelFailed levelFailedUI;
 
@@ -73,6 +76,14 @@ public class LevelManager : MonoBehaviour
     }
 
     private void StartLevel(int stage, int level) {
+        if(!LevelLoader.LevelExist(stage, level)) {
+            infoUI.ShowInfo(InfoType.FINISHED_ALL_LEVELS, delegate () {
+                SceneManager.LoadScene("MainMenu");
+            });
+
+            return;
+        }
+
         platformManager.LoadLevel(stage, level);
 
         movementSystem.enabled = true;

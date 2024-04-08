@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StageScrollView : MonoBehaviour
@@ -8,6 +6,7 @@ public class StageScrollView : MonoBehaviour
 
     [SerializeField] private Transform content;
     [SerializeField] private GameObject levelButtonPrefab;
+    [SerializeField] private UIInfo infoUI;
 
     private const int PADDING_TOP = 60;
 
@@ -16,7 +15,7 @@ public class StageScrollView : MonoBehaviour
 
         for(int i=0;i<levelAmount; i++) {
             GameObject levelButton = Instantiate(levelButtonPrefab);
-            levelButton.GetComponent<LevelButton>().Initialize(stage, i + 1);
+            levelButton.GetComponent<LevelButton>().Initialize(infoUI, stage, i + 1);
 
             levelButton.transform.SetParent(content.transform, false);
 

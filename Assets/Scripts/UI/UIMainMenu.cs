@@ -19,6 +19,7 @@ public class UIMainMenu : MonoBehaviour
 
         AdSystem.InitializeAdMob();
         BannerAdController.HideAd();
+        RewardedAdController.LoadAd();
 
         Leaderboard.Authenticate();
     }
