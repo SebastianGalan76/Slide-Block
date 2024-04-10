@@ -6,7 +6,8 @@ Slide Block is a kind of super engaging and amazing puzzle game. Swipe your fing
 The game contains over 100 unique levels. Try to find the best way to complete each level. Every level is possible to solve but not everyone can do it!
 Do you think you can do it?
 
-<b>Google Play:</b> https://play.google.com/store/apps/details?id=com.coresaken.slideblock
+<b>Google Play:</b> https://play.google.com/store/apps/details?id=com.coresaken.slideblock <br>
+<b>Functionality:</b> https://www.youtube.com/watch?v=a6vgB17PGI4
 
 Website: https://coresaken.com/ </br>
 Facebook: https://www.facebook.com/CoresakenGames </br>
