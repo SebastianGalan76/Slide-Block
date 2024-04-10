@@ -33,6 +33,7 @@ public class PlatformManager : MonoBehaviour
     }
 
     public void LoadLevel(int stage, int level) {
+        StopAllCoroutines();
         foreach(Transform child in transform) {
             Destroy(child.gameObject);
         }

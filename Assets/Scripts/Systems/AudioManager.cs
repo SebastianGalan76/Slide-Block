@@ -70,7 +70,7 @@ public struct AudioElement {
     public AudioSource audioSource;
 
     public void Play() {
-        audioSource.Play();
+        audioSource.PlayOneShot(audioSource.clip);
     }
 }
 

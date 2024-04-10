@@ -5,7 +5,6 @@ public class BannerAdController
 {
     private static BannerView bannerView;
 
-    //Banner
     public static void CreateBannerView() {
         Destroy();
 
@@ -16,8 +15,10 @@ public class BannerAdController
             CreateBannerView();
         }
 
-        AdRequest adRequest = new AdRequest();
-        bannerView.LoadAd(adRequest);
+        if(bannerView != null) {
+            AdRequest adRequest = new AdRequest();
+            bannerView.LoadAd(adRequest);
+        }
     }
     public static void Destroy() {
         if(bannerView != null) {
