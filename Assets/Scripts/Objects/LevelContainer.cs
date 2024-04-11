@@ -13,7 +13,7 @@ public class LevelContainer : MonoBehaviour
     private float xPos;
 
     public void Initialize(int stage, int level) {
-        (float size, float posX, float posY) = LevelLoader.LoadCamera(stage, level);
+        (float size, float posX, float posY) = LevelLoader.GetInstance().LoadCamera(stage, level);
         GameObject camera = Instantiate(cameraPrefab);
         camera.GetComponent<LevelCamera>().LoadCamera(size, posX, posY);
         camera.transform.SetParent(transform, false);

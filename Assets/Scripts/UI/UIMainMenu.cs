@@ -19,9 +19,9 @@ public class UIMainMenu : MonoBehaviour
 
         Time.timeScale = 1;
 
-        AdSystem.InitializeAdMob();
-        BannerAdController.HideAd();
-        RewardedAdController.LoadAd();
+        AdSystem.GetInstance().InitializeAdMob();
+        BannerAdController.GetInstance().HideAd();
+        RewardedAdController.GetInstance().LoadAd();
 
         Leaderboard.Authenticate();
     }

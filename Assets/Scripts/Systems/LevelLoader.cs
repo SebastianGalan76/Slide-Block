@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class LevelLoader
 {
-    private static bool isLoaded;
-    private static XmlDocument doc;
+    private static LevelLoader instance;
+    private XmlDocument doc;
 
-    public static FieldType[,] LoadPlatform(int stage, int level) {
+    private LevelLoader() { 
         LoadDocument();
+    }
 
+    public FieldType[,] LoadPlatform(int stage, int level) {
         FieldType[,] platform = new FieldType[14, 14];
 
         XmlNode node = doc.SelectSingleNode("//stage[@id='" + stage + "']/level[@id='" + level + "']/platform");
@@ -27,9 +29,7 @@ public class LevelLoader
         return platform;
     }
 
-    public static (float, float, float) LoadCamera(int stage, int level) {
-        LoadDocument();
-
+    public (float, float, float) LoadCamera(int stage, int level) {
         XmlNode node = doc.SelectSingleNode("//stage[@id='" + stage + "']/level[@id='" + level + "']/camera");
         XmlNode posXNode = node.ChildNodes[0];
         XmlNode posYNode = node.ChildNodes[1];
@@ -42,9 +42,7 @@ public class LevelLoader
         return (size, posX, posY);
     }
 
-    public static Dictionary<int, List<BlockValues>> LoadMovingBlocks(int stage, int level) {
-        LoadDocument();
-
+    public Dictionary<int, List<BlockValues>> LoadMovingBlocks(int stage, int level) {
         Dictionary<int, List<BlockValues>> movingBlocks = new Dictionary<int, List<BlockValues>>();
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//movingBlock");
         
@@ -69,9 +67,7 @@ public class LevelLoader
         return movingBlocks;
     }
 
-    public static Dictionary<int, List<BlockValues>> LoadDestinationPlaces(int stage, int level) {
-        LoadDocument();
-
+    public Dictionary<int, List<BlockValues>> LoadDestinationPlaces(int stage, int level) {
         Dictionary<int, List<BlockValues>> destinationPlaces = new Dictionary<int, List<BlockValues>>();
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//destinationPlace");
 
@@ -96,9 +92,7 @@ public class LevelLoader
         return destinationPlaces;
     }
 
-    public static List<BlockValues> LoadStoppableBlocks(int stage, int level) {
-        LoadDocument();
-
+    public List<BlockValues> LoadStoppableBlocks(int stage, int level) {
         List<BlockValues> stoppableBlocks = new List<BlockValues>();
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//stoppableBlock");
 
@@ -117,9 +111,7 @@ public class LevelLoader
         return stoppableBlocks;
     }
 
-    public static List<BlockValues> LoadDestructivePlaces(int stage, int level) {
-        LoadDocument();
-
+    public List<BlockValues> LoadDestructivePlaces(int stage, int level) {
         List<BlockValues> destructivePlaces = new List<BlockValues>();
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level[@id='" + level + "']//destructivePlace");
 
@@ -138,24 +130,17 @@ public class LevelLoader
         return destructivePlaces;
     }
 
-    public static int GetLevelAmountForStage(int stage) {
-        LoadDocument();
-
+    public int GetLevelAmountForStage(int stage) {
         XmlNodeList nodeList = doc.SelectNodes("//stage[@id='" + stage + "']/level");
         return nodeList.Count;
     }
 
-    public static bool LevelExist(int stage, int level) {
-        LoadDocument();
-
+    public bool LevelExist(int stage, int level) {
         XmlNode node = doc.SelectSingleNode("//stage[@id='" + stage + "']/level[@id='" + level + "']");
         return node == null ? false : true;
     }
 
-    private static void LoadDocument() {
-        if(isLoaded)
-            return;
-
+    private void LoadDocument() {
         doc = new XmlDocument();
         if(Application.platform == RuntimePlatform.Android) {
             TextAsset levelAsset = (TextAsset)Resources.Load("LevelsXML");
@@ -163,8 +148,14 @@ public class LevelLoader
         } else if(Application.platform == RuntimePlatform.WindowsEditor) {
             doc.Load("Assets/Resources/LevelsXML.xml");
         }
+    }
 
-        isLoaded = true;
+    public static LevelLoader GetInstance() {
+        if(instance == null) {
+            instance = new LevelLoader();
+        }
+
+        return instance;
     }
 
     public struct BlockValues {

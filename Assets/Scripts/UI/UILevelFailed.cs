@@ -60,7 +60,7 @@ public class UILevelFailed : MonoBehaviour
     }
 
     public void SkipLevel() {
-        RewardedAdController.ShowAd((Reward reward) => {
+        RewardedAdController.GetInstance().ShowAd((Reward reward) => {
             levelManager.SkipLevel();
         }, delegate() {
             infoUI.ShowInfo(InfoType.AD_IS_NOT_LOADED);

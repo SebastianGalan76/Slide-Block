@@ -3,14 +3,21 @@ using UnityEngine;
 
 public class BannerAdController 
 {
-    private static BannerView bannerView;
+    private static BannerAdController instance;
 
-    public static void CreateBannerView() {
+    private BannerView bannerView;
+    private AdSystem adSystem;
+
+    private BannerAdController() {
+        adSystem = AdSystem.GetInstance();
+    }
+
+    public void CreateBannerView() {
         Destroy();
 
-        bannerView = new BannerView(AdSystem.GetAdId(AdType.BANNER), AdSize.Banner, AdPosition.Bottom);
+        bannerView = new BannerView(adSystem.GetAdId(AdType.BANNER), AdSize.Banner, AdPosition.Bottom);
     }
-    public static void LoadAd() {
+    public void LoadAd() {
         if(bannerView == null) {
             CreateBannerView();
         }
@@ -20,16 +27,23 @@ public class BannerAdController
             bannerView.LoadAd(adRequest);
         }
     }
-    public static void Destroy() {
+    public void Destroy() {
         if(bannerView != null) {
             bannerView.Destroy();
             bannerView = null;
         }
     }
 
-    public static void HideAd() {
+    public void HideAd() {
         if(bannerView != null ) {
             bannerView.Hide();
         }
+    }
+
+    public static BannerAdController GetInstance() {
+        if(instance == null) {
+            instance = new BannerAdController();
+        }
+        return instance;
     }
 }
