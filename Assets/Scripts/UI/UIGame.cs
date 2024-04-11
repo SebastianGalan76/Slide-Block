@@ -15,13 +15,15 @@ public class UIGame : MonoBehaviour
     [SerializeField] private UIInfo infoUI;
 
     private Animator pauseButtonAnim;
+    private RewardedAdController rewardedAdController;
 
     private bool isPaused;
 
     private void Awake() {
         pauseButtonAnim = pauseButton.GetComponent<Animator>();
+        rewardedAdController = RewardedAdController.GetInstance();
 
-        RewardedAdController.OnAdLoaded += RewardedAdController_OnAdLoaded;
+        rewardedAdController.OnAdLoaded += RewardedAdController_OnAdLoaded;
     }
 
     private void RewardedAdController_OnAdLoaded() {
@@ -43,7 +45,7 @@ public class UIGame : MonoBehaviour
             text.SetText("Level " + level);
         }
 
-        if(RewardedAdController.IsReady()) {
+        if(rewardedAdController.IsReady()) {
             ShowSkipButton();
         } else {
             HideSkipButton();
@@ -90,8 +92,8 @@ public class UIGame : MonoBehaviour
     }
 
     public void SkipLevel() {
-        RewardedAdController.ShowAd((Reward reward) => {
-            if(!RewardedAdController.IsReady()) {
+        rewardedAdController.ShowAd((Reward reward) => {
+            if(!rewardedAdController.IsReady()) {
                 HideSkipButton();
             }
 

@@ -7,6 +7,6 @@ public class AdValueTimer : MonoBehaviour
     }
 
     public void IncreaseAdValue() {
-        AdSystem.ChangeAdValue(1);
+        AdSystem.GetInstance().ChangeAdValue(1);
     }
 }

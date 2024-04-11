@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using static LevelLoader;
-
 public class PlatformManager : MonoBehaviour
 {
     public const int PLATFORM_SIZE = 14;
@@ -27,9 +25,12 @@ public class PlatformManager : MonoBehaviour
     private BorderManager borderManager;
 
     private LevelContainer levelContainer;
+    private LevelLoader levelLoader;
 
     private void Awake() {
         borderManager = GetComponent<BorderManager>();
+
+        levelLoader = LevelLoader.GetInstance();
     }
 
     public void LoadLevel(int stage, int level) {
@@ -47,7 +48,7 @@ public class PlatformManager : MonoBehaviour
         levelContainer.Initialize(stage, level);
         levelContainer.transform.position = new Vector3(level * 100f, stage * 100);
 
-        platform = LoadPlatform(stage, level);
+        platform = levelLoader.LoadPlatform(stage, level);
         borderManager.GenerateBorder(platform, PLATFORM_SIZE, levelContainer.GetPlatformParent());
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
@@ -69,13 +70,13 @@ public class PlatformManager : MonoBehaviour
         colorBlockType = new Dictionary<int, int>();
 
         movingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
-        Dictionary<int, List<BlockValues>> movingBlocksDictionary = LoadMovingBlocks(stage, level);
+        Dictionary<int, List<LevelLoader.BlockValues>> movingBlocksDictionary = levelLoader.LoadMovingBlocks(stage, level);
         totalMovingBlocks += movingBlocksDictionary.Count;
         foreach(int type in movingBlocksDictionary.Keys) {
-            List<BlockValues> blockValues = movingBlocksDictionary[type];
+            List<LevelLoader.BlockValues> blockValues = movingBlocksDictionary[type];
             
             int blockIndex = 0;
-            foreach(BlockValues blockValue in blockValues) {
+            foreach(LevelLoader.BlockValues blockValue in blockValues) {
                 ColorBlock colorBlock = GetRandomColor(type);
 
                 GameObject blockObj = Instantiate(movingBlockPrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
@@ -95,12 +96,12 @@ public class PlatformManager : MonoBehaviour
         }
 
         //Load destination places
-        Dictionary<int, List<BlockValues>> destinationPlacesDictionary = LoadDestinationPlaces(stage, level);
+        Dictionary<int, List<LevelLoader.BlockValues>> destinationPlacesDictionary = levelLoader.LoadDestinationPlaces(stage, level);
         foreach(int type in destinationPlacesDictionary.Keys) {
-            List<BlockValues> placeValues = destinationPlacesDictionary[type];
+            List<LevelLoader.BlockValues> placeValues = destinationPlacesDictionary[type];
 
             int placeIndex = 0;
-            foreach(BlockValues blockValue in placeValues) {
+            foreach(LevelLoader.BlockValues blockValue in placeValues) {
                 ColorBlock colorBlock = GetRandomColor(type);
 
                 GameObject placeObj = Instantiate(destinationPlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
@@ -117,10 +118,10 @@ public class PlatformManager : MonoBehaviour
         }
 
         //Load stoppable blocks
-        List<BlockValues> stoppableBlocks = LoadStoppableBlocks(stage, level);
+        List<LevelLoader.BlockValues> stoppableBlocks = levelLoader.LoadStoppableBlocks(stage, level);
         totalMovingBlocks += stoppableBlocks.Count;
         int stoppableBlockIndex = 0;
-        foreach(BlockValues blockValues in stoppableBlocks) {
+        foreach(LevelLoader.BlockValues blockValues in stoppableBlocks) {
             GameObject blockObj = Instantiate(stoppableBlockPrefab, new Vector3(blockValues.posX, blockValues.posY, 1), Quaternion.identity);
             blockObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
@@ -136,9 +137,9 @@ public class PlatformManager : MonoBehaviour
         }
 
         //Load destructive places
-        List<BlockValues> destructivePlaces = LoadDestructivePlaces(stage, level);
+        List<LevelLoader.BlockValues> destructivePlaces = levelLoader.LoadDestructivePlaces(stage, level);
         int destructivePlaceIndex = 0;
-        foreach(BlockValues blockValue in destructivePlaces) {
+        foreach(LevelLoader.BlockValues blockValue in destructivePlaces) {
             GameObject placeObj = Instantiate(destructivePlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
             placeObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 

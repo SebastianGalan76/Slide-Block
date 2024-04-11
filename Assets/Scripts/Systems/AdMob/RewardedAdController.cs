@@ -3,26 +3,32 @@ using System;
 
 public class RewardedAdController
 {
-    private static RewardedAd rewardedAd;
+    private static RewardedAdController instance;
 
     public delegate void AdLoadedHandler();
     public delegate void AdIsNotLoadedHandler();
+    public event AdLoadedHandler OnAdLoaded;
 
-    public static event AdLoadedHandler OnAdLoaded;
+    private RewardedAd rewardedAd;
+    private AdSystem adSystem;
 
-    public static void LoadAd() {
+    private RewardedAdController() {
+        adSystem = AdSystem.GetInstance();
+    }
+
+    public void LoadAd() {
         if(!IsReady()) {
             DestroyAd();
         }
 
         AdRequest adRequest = new AdRequest();
-        RewardedAd.Load(AdSystem.GetAdId(AdType.REWARDED), adRequest,
+        RewardedAd.Load(adSystem.GetAdId(AdType.REWARDED), adRequest,
             (RewardedAd ad, LoadAdError error) => {
                 if(ad != null && error == null) {
                     rewardedAd = ad;
 
                     rewardedAd.OnAdFullScreenContentClosed += () => {
-                        AdSystem.ChangeAdValue(-8);
+                       adSystem.ChangeAdValue(-8);
 
                         LoadAd();
                     };
@@ -35,7 +41,7 @@ public class RewardedAdController
                 }
             });
     }
-    public static void ShowAd(Action<Reward> rewardHandler, AdIsNotLoadedHandler adIsNotLoadedAction = null) {
+    public void ShowAd(Action<Reward> rewardHandler, AdIsNotLoadedHandler adIsNotLoadedAction = null) {
         if(rewardedAd != null && rewardedAd.CanShowAd()) {
             rewardedAd.Show((Reward reward) => {
                 rewardHandler?.Invoke(reward);
@@ -46,14 +52,22 @@ public class RewardedAdController
             }
         }
     }
-    private static void DestroyAd() {
+    private void DestroyAd() {
         if(rewardedAd != null) {
             rewardedAd.Destroy();
             rewardedAd = null;
         }
     }
 
-    public static bool IsReady() {
+    public bool IsReady() {
         return rewardedAd != null && rewardedAd.CanShowAd();
+    }
+
+    public static RewardedAdController GetInstance() {
+        if(instance == null) {
+            instance = new RewardedAdController();
+        }
+
+        return instance;
     }
 }

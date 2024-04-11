@@ -19,9 +19,9 @@ public class LevelManager : MonoBehaviour
         stage = PlayerPrefs.GetInt("Stage");
         level = PlayerPrefs.GetInt("Level");
 
-        BannerAdController.LoadAd();
-        RewardedAdController.LoadAd();
-        InterstitialAdController.LoadAds();
+        BannerAdController.GetInstance().LoadAd();
+        RewardedAdController.GetInstance().LoadAd();
+        InterstitialAdController.GetInstance().LoadAds();
 
         StartLevel(stage, level);
     }
@@ -76,7 +76,7 @@ public class LevelManager : MonoBehaviour
     }
 
     private void StartLevel(int stage, int level) {
-        if(!LevelLoader.LevelExist(stage, level)) {
+        if(!LevelLoader.GetInstance().LevelExist(stage, level)) {
             infoUI.ShowInfo(InfoType.FINISHED_ALL_LEVELS, delegate () {
                 SceneManager.LoadScene("MainMenu");
             });
@@ -90,10 +90,10 @@ public class LevelManager : MonoBehaviour
         gameUI.ChangeLevel(level);
 
         Time.timeScale = 1;
-        AdSystem.ChangeAdValue(1);
+        AdSystem.GetInstance().ChangeAdValue(1);
 
         if(stage > 1 || level > 10) {
-            InterstitialAdController.CheckAdValue();
+            InterstitialAdController.GetInstance().CheckAdValue();
         }
 
         PlayerPrefs.SetInt("LastPlayedStage", stage);

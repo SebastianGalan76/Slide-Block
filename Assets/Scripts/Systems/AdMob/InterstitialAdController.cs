@@ -2,44 +2,51 @@ using GoogleMobileAds.Api;
 
 public class InterstitialAdController
 {
-    private static InterstitialAd interstitialAd, videoAd;
+    private static InterstitialAdController instance;
 
-    public static void LoadAds() {
+    private InterstitialAd interstitialAd, videoAd;
+    private AdSystem adSystem;
+
+    private InterstitialAdController() {
+        adSystem = AdSystem.GetInstance();
+    }
+
+    public void LoadAds() {
         LoadInterstitialAd();
         LoadVideoAd();
     }
 
-    public static void Show() {
+    public void Show() {
         if(!ShowVideoAd()) {
             ShowInterstitialAd();
         }
     }
 
-    public static void CheckAdValue() {
-        if(AdSystem.GetAdValue() >= 10) {
+    public void CheckAdValue() {
+        if(adSystem.GetAdValue() >= 10) {
             Show();
         }
     }
 
-    public static bool IsReady() {
+    public bool IsReady() {
         return (interstitialAd != null && interstitialAd.CanShowAd()) || (videoAd != null && videoAd.CanShowAd());
     }
 
     //Interstitial
-    private static void LoadInterstitialAd() {
+    private void LoadInterstitialAd() {
         if(interstitialAd != null) {
             interstitialAd.Destroy();
             interstitialAd = null;
         }
 
         AdRequest adRequest = new AdRequest();
-        InterstitialAd.Load(AdSystem.GetAdId(AdType.INTERSTITIAL), adRequest,
+        InterstitialAd.Load(adSystem.GetAdId(AdType.INTERSTITIAL), adRequest,
             (InterstitialAd ad, LoadAdError error) => {
                 if(ad != null && error == null) {
                     interstitialAd = ad;
 
                     interstitialAd.OnAdFullScreenContentClosed += () => {
-                        AdSystem.ChangeAdValue(-3);
+                        adSystem.ChangeAdValue(-3);
 
                         LoadInterstitialAd();
                     };
@@ -51,7 +58,7 @@ public class InterstitialAdController
             });
 
     }
-    private static bool ShowInterstitialAd() {
+    private bool ShowInterstitialAd() {
         if(interstitialAd != null && interstitialAd.CanShowAd()) {
             interstitialAd.Show();
             return true;
@@ -61,20 +68,20 @@ public class InterstitialAdController
     }
 
     //Video
-    private static void LoadVideoAd() {
+    private void LoadVideoAd() {
         if(videoAd != null) {
             videoAd.Destroy();
             videoAd = null;
         }
 
         AdRequest adRequest = new AdRequest();
-        InterstitialAd.Load(AdSystem.GetAdId(AdType.VIDEO), adRequest,
+        InterstitialAd.Load(adSystem.GetAdId(AdType.VIDEO), adRequest,
             (InterstitialAd ad, LoadAdError error) => {
                 if(ad != null && error == null) {
                     videoAd = ad;
 
                     videoAd.OnAdFullScreenContentClosed += () => {
-                        AdSystem.ChangeAdValue(-5);
+                        adSystem.ChangeAdValue(-5);
 
                         ShowInterstitialAd();
                         LoadVideoAd();
@@ -89,12 +96,20 @@ public class InterstitialAdController
             });
 
     }
-    private static bool ShowVideoAd() {
+    private bool ShowVideoAd() {
         if(videoAd != null && videoAd.CanShowAd()) {
             videoAd.Show();
             return true;
         }
 
         return false;
+    }
+
+    public static InterstitialAdController GetInstance() {
+        if(instance == null) {
+            instance = new InterstitialAdController();
+        }
+
+        return instance;
     }
 }

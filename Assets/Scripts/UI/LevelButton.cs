@@ -43,7 +43,7 @@ public class LevelButton : LocalButton
     }
 
     private void Unlock() {
-        RewardedAdController.ShowAd((Reward reward) => {
+        RewardedAdController.GetInstance().ShowAd((Reward reward) => {
             UserData.UnlockLevel(stageNumber, levelNumber);
             levelStatus.unlocked = true;
             infoUI.HideAllInfo();

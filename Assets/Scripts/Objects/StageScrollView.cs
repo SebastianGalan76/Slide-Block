@@ -11,7 +11,7 @@ public class StageScrollView : MonoBehaviour
     private const int PADDING_TOP = 60;
 
     private void Awake() {
-        int levelAmount = LevelLoader.GetLevelAmountForStage(stage);
+        int levelAmount = LevelLoader.GetInstance().GetLevelAmountForStage(stage);
 
         for(int i=0;i<levelAmount; i++) {
             GameObject levelButton = Instantiate(levelButtonPrefab);
