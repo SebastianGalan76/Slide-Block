@@ -15,6 +15,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private UILevelComplete levelCompleteUI;
     [SerializeField] private UILevelFailed levelFailedUI;
 
+    private UserDataManager userDataManager;
+
     private void Start() {
         stage = PlayerPrefs.GetInt("Stage");
         level = PlayerPrefs.GetInt("Level");
@@ -22,6 +24,8 @@ public class LevelManager : MonoBehaviour
         BannerAdController.GetInstance().LoadAd();
         RewardedAdController.GetInstance().LoadAd();
         InterstitialAdController.GetInstance().LoadAds();
+
+        userDataManager = UserDataManager.GetInstance();
 
         StartLevel(stage, level);
     }
@@ -34,7 +38,7 @@ public class LevelManager : MonoBehaviour
 
     public void CompleteLevel() {
         movementSystem.enabled = false;
-        UserData.CompleteLevel(stage, level);
+        userDataManager.CompleteLevel(stage, level);
 
         levelCompleteUI.ShowPanel(level);
     }
@@ -71,7 +75,7 @@ public class LevelManager : MonoBehaviour
     }
 
     public void SkipLevel() {
-        UserData.SkipLevel(stage, level);
+        userDataManager.UnlockNextLevel(stage, level);
         StartNextLevel();
     }
 

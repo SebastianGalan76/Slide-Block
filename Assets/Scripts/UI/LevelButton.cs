@@ -12,7 +12,7 @@ public class LevelButton : LocalButton
     private UIInfo infoUI;
     private int stageNumber;
     private int levelNumber;
-    private UserData.LevelStatus levelStatus;
+    private LevelStatus levelStatus;
 
     public void Initialize(UIInfo infoUI, int stage, int level) {
         stageNumber = stage;
@@ -22,7 +22,7 @@ public class LevelButton : LocalButton
         unlockedSprite = GetComponent<Image>().sprite;
         gameObject.name = level.ToString();
 
-        levelStatus = UserData.GetLevelStatus(stage, level);
+        levelStatus = UserDataManager.GetInstance().GetLevelStatus(stage, level);
         GetComponent<Button>().onClick.AddListener(() => { StartLevel(); });
 
         ReloadButton();
@@ -44,7 +44,7 @@ public class LevelButton : LocalButton
 
     private void Unlock() {
         RewardedAdController.GetInstance().ShowAd((Reward reward) => {
-            UserData.UnlockLevel(stageNumber, levelNumber);
+            UserDataManager.GetInstance().UnlockLevel(stageNumber, levelNumber);
             levelStatus.unlocked = true;
             infoUI.HideAllInfo();
 

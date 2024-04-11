@@ -14,7 +14,7 @@ public class UIMainMenu : MonoBehaviour
     private Animator animator;
 
     private void Awake() {
-        starAmountTotal.SetText(UserData.GetTotalStarAmount().ToString());
+        starAmountTotal.SetText(UserDataManager.GetInstance().GetTotalStarAmount().ToString());
         animator = GetComponent<Animator>();
 
         Time.timeScale = 1;
@@ -40,7 +40,7 @@ public class UIMainMenu : MonoBehaviour
     public void ShowLevelList() {
         animator.Play("ShowLevelList");
 
-        stageStarAmount[0].SetText(UserData.GetStarAmountForStage(1).ToString());
+        stageStarAmount[0].SetText(UserDataManager.GetInstance().GetStarAmountForStage(1).ToString());
     }
 
     public void HideLevelList() {
