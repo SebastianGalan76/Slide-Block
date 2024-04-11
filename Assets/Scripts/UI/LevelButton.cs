@@ -12,7 +12,7 @@ public class LevelButton : LocalButton
     private UIInfo infoUI;
     private int stageNumber;
     private int levelNumber;
-    private LevelStatus levelStatus;
+    private UserData.LevelStatus levelStatus;
 
     public void Initialize(UIInfo infoUI, int stage, int level) {
         stageNumber = stage;

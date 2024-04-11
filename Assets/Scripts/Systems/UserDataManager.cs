@@ -1,10 +1,8 @@
-﻿using System.Xml;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
-using UnityEditor;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-using UnityEditor.SceneManagement;
+using static UserData;
 
 public class UserDataManager
 {

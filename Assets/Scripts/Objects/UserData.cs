@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using System.Collections.Generic;
 
 [System.Serializable]
-[System.Xml.Serialization.XmlRoot("userData")]
+[XmlRoot("userData")]
 public class UserData
 {
     [XmlElement("fileVersion")]
@@ -21,49 +21,49 @@ public class UserData
 
     [XmlElement("statistic")]
     public StatisticNode statistic;
-}
 
-[System.Serializable]
-public class StageNode {
-    [XmlAttribute("id")]
-    public int id;
+    [System.Serializable]
+    public class StageNode {
+        [XmlAttribute("id")]
+        public int id;
 
-    [XmlElement("level")]
-    public List<LevelStatus> levels;
-}
+        [XmlElement("level")]
+        public List<LevelStatus> levels;
+    }
 
-[System.Serializable]
-public class LevelStatus {
-    [XmlAttribute("id")]
-    public int id;
+    [System.Serializable]
+    public class LevelStatus {
+        [XmlAttribute("id")]
+        public int id;
 
-    [XmlElement("unlocked")]
-    public bool unlocked;
+        [XmlElement("unlocked")]
+        public bool unlocked;
 
-    [XmlElement("finished")]
-    public bool finished;
-}
+        [XmlElement("finished")]
+        public bool finished;
+    }
 
-[System.Serializable]
-public struct SettingsElement {
-    [XmlElement("sound")]
-    public int sound;
+    [System.Serializable]
+    public class SettingsElement {
+        [XmlElement("sound")]
+        public int sound;
 
-    [XmlElement("music")]
-    public int music;
-}
+        [XmlElement("music")]
+        public int music;
+    }
 
-[System.Serializable]
-public struct StatisticNode {
-    [XmlElement("stage")]
-    public List<StatisticStageElement> stages;
-}
+    [System.Serializable]
+    public class StatisticNode {
+        [XmlElement("stage")]
+        public List<StatisticStageElement> stages;
+    }
 
-[System.Serializable]
-public class StatisticStageElement {
-    [XmlAttribute("id")]
-    public int id;
+    [System.Serializable]
+    public class StatisticStageElement {
+        [XmlAttribute("id")]
+        public int id;
 
-    [XmlElement("starAmount")]
-    public int starAmount;
+        [XmlElement("starAmount")]
+        public int starAmount;
+    }
 }
