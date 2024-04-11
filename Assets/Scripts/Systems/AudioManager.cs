@@ -12,8 +12,11 @@ public class AudioManager : MonoBehaviour
     public AudioType sound;
     public AudioType music;
 
+    private UserDataManager userDataManager;
+
     private void Awake() {
-        UserData.LoadAudioSettings(ref sound,ref music);
+        userDataManager = UserDataManager.GetInstance();
+        userDataManager.LoadAudioSettings(ref sound,ref music);
 
         musicAudioSource.enabled = music.IsEnabled();
 
@@ -42,14 +45,14 @@ public class AudioManager : MonoBehaviour
         music.Switch();
         musicAudioSource.enabled = music.IsEnabled();
 
-        UserData.SaveAudioSettings(sound, music);
+        userDataManager.SaveAudioSettings(sound, music);
         return music.IsEnabled();
     }
 
     public bool SwitchSound() {
         sound.Switch();
 
-        UserData.SaveAudioSettings(sound, music);
+        userDataManager.SaveAudioSettings(sound, music);
         return sound.IsEnabled();
     }
 
