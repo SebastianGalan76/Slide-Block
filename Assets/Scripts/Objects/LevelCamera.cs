@@ -8,9 +8,9 @@ public class LevelCamera : MonoBehaviour
         camera = GetComponent<Camera>();  
     }
 
-    public void LoadCamera(float size, float posX, float posY) {
-        camera.transform.position = new Vector3(posX, posY, -10);
-        camera.orthographicSize = size;
+    public void LoadCamera(LevelData.CameraElement cameraData) {
+        camera.transform.position = new Vector3(cameraData.posX, cameraData.posY, -10);
+        camera.orthographicSize = cameraData.size;
 
         // set the desired aspect ratio, I set it to fit every screen 
         float targetAspect = 1080f / 1920f;

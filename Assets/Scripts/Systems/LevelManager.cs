@@ -80,7 +80,7 @@ public class LevelManager : MonoBehaviour
     }
 
     private void StartLevel(int stage, int level) {
-        if(!LevelLoader.GetInstance().LevelExist(stage, level)) {
+        if(!LevelDataManager.GetInstance().LevelExist(stage, level)) {
             infoUI.ShowInfo(InfoType.FINISHED_ALL_LEVELS, delegate () {
                 SceneManager.LoadScene("MainMenu");
             });
