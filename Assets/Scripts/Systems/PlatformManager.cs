@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static LevelData;
 
 public class PlatformManager : MonoBehaviour
 {
@@ -25,12 +26,12 @@ public class PlatformManager : MonoBehaviour
     private BorderManager borderManager;
 
     private LevelContainer levelContainer;
-    private LevelLoader levelLoader;
+    private LevelDataManager levelDatamanager;
 
     private void Awake() {
         borderManager = GetComponent<BorderManager>();
 
-        levelLoader = LevelLoader.GetInstance();
+        levelDatamanager = LevelDataManager.GetInstance();
     }
 
     public void LoadLevel(int stage, int level) {
@@ -48,7 +49,7 @@ public class PlatformManager : MonoBehaviour
         levelContainer.Initialize(stage, level);
         levelContainer.transform.position = new Vector3(level * 100f, stage * 100);
 
-        platform = levelLoader.LoadPlatform(stage, level);
+        platform = levelDatamanager.LoadPlatform(stage, level);
         borderManager.GenerateBorder(platform, PLATFORM_SIZE, levelContainer.GetPlatformParent());
 
         for(int x = 0;x < PLATFORM_SIZE;x++) {
@@ -66,89 +67,68 @@ public class PlatformManager : MonoBehaviour
 
         //Load moving blocks
         int totalMovingBlocks = 0;
-
         colorBlockType = new Dictionary<int, int>();
 
         movingBlocks = new Block[PLATFORM_SIZE, PLATFORM_SIZE];
-        Dictionary<int, List<LevelLoader.BlockValues>> movingBlocksDictionary = levelLoader.LoadMovingBlocks(stage, level);
-        totalMovingBlocks += movingBlocksDictionary.Count;
-        foreach(int type in movingBlocksDictionary.Keys) {
-            List<LevelLoader.BlockValues> blockValues = movingBlocksDictionary[type];
-            
-            int blockIndex = 0;
-            foreach(LevelLoader.BlockValues blockValue in blockValues) {
-                ColorBlock colorBlock = GetRandomColor(type);
+        List<MovingBlockElement> movingBlockList = levelDatamanager.LoadMovingBlocks(stage, level);
+        totalMovingBlocks += movingBlockList.Count;
+        foreach(MovingBlockElement movingBlock in movingBlockList) {
+            ColorBlock colorBlock = GetRandomColor(movingBlock.type);
 
-                GameObject blockObj = Instantiate(movingBlockPrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
-                blockObj.GetComponent<SpriteRenderer>().sprite = colorBlock.movingBlockSprite;
-                blockObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
+            GameObject blockObj = Instantiate(movingBlockPrefab, new Vector3(movingBlock.posX, movingBlock.posY, 1), Quaternion.identity);
+            blockObj.GetComponent<SpriteRenderer>().sprite = colorBlock.movingBlockSprite;
+            blockObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
-                int x = blockValue.positionPlatform % PLATFORM_SIZE;
-                int y = blockValue.positionPlatform / PLATFORM_SIZE;
-                blockObj.name = "MovingBlock#" + type + " (" + blockIndex + ") - ("+x+", "+y+")";
-                
-                Block block = blockObj.GetComponent<Block>();
-                block.Initialize(colorBlock, x, y, movementSystem);
-                movingBlocks[x, y] = block;
-                
-                blockIndex++;
-            }
+            int x = movingBlock.positionPlatform % PLATFORM_SIZE;
+            int y = movingBlock.positionPlatform / PLATFORM_SIZE;
+            blockObj.name = "MovingBlock#" + movingBlock.type + " - (" + x + ", " + y + ")";
+
+            Block block = blockObj.GetComponent<Block>();
+            block.Initialize(colorBlock, x, y, movementSystem);
+            movingBlocks[x, y] = block;
         }
 
         //Load destination places
-        Dictionary<int, List<LevelLoader.BlockValues>> destinationPlacesDictionary = levelLoader.LoadDestinationPlaces(stage, level);
-        foreach(int type in destinationPlacesDictionary.Keys) {
-            List<LevelLoader.BlockValues> placeValues = destinationPlacesDictionary[type];
+        List<DestinationPlaceElement> destinationPlaceListy = levelDatamanager.LoadDestinationPlaces(stage, level);
+        foreach(DestinationPlaceElement destinationPlace in destinationPlaceListy) {
+            ColorBlock colorBlock = GetRandomColor(destinationPlace.type);
 
-            int placeIndex = 0;
-            foreach(LevelLoader.BlockValues blockValue in placeValues) {
-                ColorBlock colorBlock = GetRandomColor(type);
+            GameObject placeObj = Instantiate(destinationPlacePrefab, new Vector3(destinationPlace.posX, destinationPlace.posY, 1), Quaternion.identity);
+            placeObj.GetComponent<SpriteRenderer>().sprite = colorBlock.destinationPlaceSprite;
+            placeObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
-                GameObject placeObj = Instantiate(destinationPlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
-                placeObj.GetComponent<SpriteRenderer>().sprite = colorBlock.destinationPlaceSprite;
-                placeObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
-
-                int x = blockValue.positionPlatform % PLATFORM_SIZE;
-                int y = blockValue.positionPlatform / PLATFORM_SIZE;
-                platform[x, y] = colorBlock.color;
-                placeObj.name = "DestinationPlace#" + type + " (" + placeIndex + ") - (" + x + ", " + y + ")";
-
-                placeIndex++;
-            }
+            int x = destinationPlace.positionPlatform % PLATFORM_SIZE;
+            int y = destinationPlace.positionPlatform / PLATFORM_SIZE;
+            platform[x, y] = colorBlock.color;
+            placeObj.name = "DestinationPlace#" + destinationPlace + " - (" + x + ", " + y + ")";
         }
 
         //Load stoppable blocks
-        List<LevelLoader.BlockValues> stoppableBlocks = levelLoader.LoadStoppableBlocks(stage, level);
+        List<StoppableBlockElement> stoppableBlocks = levelDatamanager.LoadStoppableBlocks(stage, level);
         totalMovingBlocks += stoppableBlocks.Count;
-        int stoppableBlockIndex = 0;
-        foreach(LevelLoader.BlockValues blockValues in stoppableBlocks) {
+        foreach(StoppableBlockElement blockValues in stoppableBlocks) {
             GameObject blockObj = Instantiate(stoppableBlockPrefab, new Vector3(blockValues.posX, blockValues.posY, 1), Quaternion.identity);
             blockObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
             int x = blockValues.positionPlatform % PLATFORM_SIZE;
             int y = blockValues.positionPlatform / PLATFORM_SIZE;
-            blockObj.name = "StoppableBlock (" + stoppableBlockIndex + ") - (" + x + ", " + y + ")";
+            blockObj.name = "StoppableBlock - (" + x + ", " + y + ")";
 
             StoppableBlock block = blockObj.GetComponent<StoppableBlock>();
             block.Initialize(x, y, movementSystem);
             movingBlocks[x, y] = block;
-
-            stoppableBlockIndex++;
         }
 
         //Load destructive places
-        List<LevelLoader.BlockValues> destructivePlaces = levelLoader.LoadDestructivePlaces(stage, level);
-        int destructivePlaceIndex = 0;
-        foreach(LevelLoader.BlockValues blockValue in destructivePlaces) {
+        List<DestructivePlaceElement> destructivePlaces = levelDatamanager.LoadDestructivePlaces(stage, level);
+        foreach(DestructivePlaceElement blockValue in destructivePlaces) {
             GameObject placeObj = Instantiate(destructivePlacePrefab, new Vector3(blockValue.posX, blockValue.posY, 1), Quaternion.identity);
             placeObj.transform.SetParent(levelContainer.GetPlatformParent(), false);
 
             int x = blockValue.positionPlatform % PLATFORM_SIZE;
             int y = blockValue.positionPlatform / PLATFORM_SIZE;
             platform[x, y] = FieldType.DESTRUCTIVE;
-            placeObj.name = "DestructivePlace (" + destructivePlaceIndex + ") - (" + x + ", " + y + ")";
-
-            destructivePlaceIndex++;
+            placeObj.name = "DestructivePlace - (" + x + ", " + y + ")";
         }
 
         levelContainer.ShowLevel();
